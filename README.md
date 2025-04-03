@@ -1,6 +1,6 @@
-# Taller 1 - ECA
+# Taller 2 - ECA
 
-Este repositorio contiene el código y los datos para el Taller 1 del curso de Evaluación de Impacto.
+Este repositorio contiene el código y los datos para el Taller 2 del curso de Econometría Avanzada del Prof. Manuel Fernández Sierra
 
 ## Estructura del Directorio
 
@@ -28,8 +28,8 @@ taller1-ECA/
 
 1. Clonar el repositorio:
 ```bash
-git clone https://github.com/usuario/taller1-ECA.git
-cd taller1-ECA
+git clone https://github.com/usuario/taller2-ECA.git
+cd taller2-ECA
 ```
 
 2. Configurar Stata:
@@ -45,20 +45,7 @@ cd taller1-ECA
    - Los códigos de análisis se encuentran en `code/`
    - Los resultados se generarán automáticamente en `output/`
 
-## Integración con Overleaf
-
-Este proyecto está vinculado a un documento de LaTeX en Overleaf para facilitar la colaboración en la redacción del informe. Para acceder:
-
-1. Solicitar acceso al proyecto en Overleaf al administrador
-2. Los cambios en el documento se sincronizan automáticamente
-3. Las figuras y tablas generadas localmente se pueden importar directamente al documento de Overleaf
-
 ## Contribuciones
 
 - Gustavo Castillo (Mac OS)
 - Ana María Patrón (Windows)
-
-## Notas Importantes
-
-- Mantener actualizado el archivo de configuración para ambos sistemas operativos
-- Documentar todos los cambios importantes en los commits
