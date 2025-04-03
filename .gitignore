@@ -2,7 +2,7 @@
 
 *.dta
 *.do.stswp
-
+*.csv
 
 # Created by https://www.toptal.com/developers/gitignore/api/windows,stata,r,latex,macos,vim
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,stata,r,latex,macos,vim
