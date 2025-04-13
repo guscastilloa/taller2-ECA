@@ -175,7 +175,7 @@ Ana María Patrón Piñerez -201714291
 
 \medskip\hrule 
 \bigskip
-
+\textcolor{red}{Ma{ana domingo 6 de abril 5pm tener dos de nuestro nombre}}
 \section*{Primer Ejercicio}
 
 El Diseño de Regresión Discontinua (RDD o simplemente RD, por sus siglas en inglés) es uno de los métodos no experimentales más utilizados para la inferencia causal y la evaluación de programas. En la actualidad, cuenta con una sólida base metodológica para la identificación, estimación, inferencia y validación \href{https://arxiv.org/abs/2108.09400}{(Cattaneo \& Titiunik, 2022)}. Una de las aplicaciones más comunes de RD es el análisis de temas de economía política en el contexto de elecciones cerradas (\textit{close elections}) \href{https://www.annualreviews.org/content/journals/10.1146/annurev-polisci-032015-010115}{(de la Cuesta \& Imai, 2016)}. En estos estudios, es común evaluar el impacto de características observables de los políticos electos sobre diversas variables de resultado. Por ejemplo, algunos trabajos comparan el desempeño de hombres y mujeres que han obtenido cargos públicos por márgenes estrechos, lo que, en principio, permite aislar el efecto del género mientras se mantienen constantes otras características observables y no observables. \\
@@ -244,6 +244,7 @@ Usted cuenta con una base de datos llamada \textit{female\_politics.dta}, que co
 \end{solucion}
         \item Discuta si es adecuado incluir controles en la regresión. Justifique su decisión (\textit{máximo 150 palabras}).
 \begin{solucion}
+\textcolor{red}{Ana M.}
 \end{solucion}
         \item Como prueba de robustez, en la regresión lineal local utilice tres anchos de banda: $BW = 0.15, 0.10$ y $0.05$.
 \begin{solucion}
@@ -264,6 +265,8 @@ Usted cuenta con una base de datos llamada \textit{female\_politics.dta}, que co
 \end{solucion}
         \item Si usted fuera la investigadora, ¿qué efecto consideraría más deseable recuperar? Sustente teniendo en cuenta la \textbf{validez} del diseño experimental y los obstáculos para la identificación.
 \begin{solucion}
+
+\textcolor{red}{hasta aca Ana M.}
 \end{solucion}        
     \end{enumerate}
   
@@ -286,6 +289,7 @@ De ahora en adelante, suponga que se desea responder la pregunta: \textbf{¿cuá
 
 %\item Si las mujeres que ganan elecciones cerradas son sistemáticamente distintas a hombres que ganan elecciones cerradas\footnote{Lo son. Por ejemplo, vea \href{https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1540-5907.2011.00512.x}{Anzia \& Berry (2011)} y \href{https://www.cambridge.org/core/journals/politics-and-gender/article/abs/what-it-takes-to-win-questioning-gender-neutral-outcomes-in-us-house-elections/83267D037A804CE682D5A640DA7B27E0}{Pearson \& McGhee (2011)}}, ¿cree usted que esto puede comprometer el efecto que se desea rescatar?
         \begin{solucion}
+        \textcolor{red}{Ana M., Gustavo}
 \end{solucion}
 \end{enumerate}
 
@@ -314,6 +318,7 @@ donde $W_i-W_j \sim \mathcal{N}(0, \sigma_W^2)$ es la resta del compensador dife
 
         \item Explique breve e intuitivamente por qué $Female_i \; \indep \; W_i, W_j$ es un ``best case scenario''.
         \begin{solucion}
+        \textcolor{red}{Gus}
 \end{solucion}
             
         \item Demuestre que si en una consulta interna que enfrenta a una política $i$ y a un político $j$ ambos reciben exactamente el mismo número de votos, entonces
@@ -324,12 +329,15 @@ donde $W_i-W_j \sim \mathcal{N}(0, \sigma_W^2)$ es la resta del compensador dife
 
         Interprete brevemente los mecanismos que podrían justificar este empate.
 \begin{solucion}
+\textcolor{red}{Gus}
 \end{solucion}
         \item Demuestre que $\plim_{n \to \infty} \hat{\tau}_{RD} < \tau$. 
         \begin{solucion}
+        \textcolor{red}{Gus}
 \end{solucion}
         \item ¿Por qué  el estimador de RD subestima el efecto causal de ser mujer? Justifique intuitivamente y de un ejemplo de un \textbf{compensador diferencial} que cumple esto.
         \begin{solucion}
+        \textcolor{red}{Gus}
 \end{solucion}
         
     \end{enumerate}
@@ -351,8 +359,11 @@ Finalmente, \href{https://onlinelibrary-wiley-com.ezproxy.uniandes.edu.co/doi/fu
     %     \item Proponga (pero \textbf{no} implemente) una metodología que permita identificar el efecto causal de ser mujer sobre la probabilidad de ganar las elecciones generales.  
     % \end{enumerate}  
 \begin{solucion}
+\textcolor{red}{Gus}
 \end{solucion}
 \end{enumerate}
+
+\textcolor{red}{Ana se encarga del 1 al 6 y Gus del 7 al 8}
 
 \newpage
 \section*{Segundo Ejercicio}
@@ -374,12 +385,13 @@ Los autores cuentan con una base de datos con información a nivel de hogar del 
 
 No, la ecuación \ref{eq1p2} no permite recuperar el efecto causal de interés porque se cree que hay un problema de endogeneidad, esto es $\text{cov}(W_i, \epsilon_i) \neq 0$. Formalmente, las variables que  pueden generar endogeneidad son variables tales que 1) se correlacionan con factores no observables que afecten el número de horas trabajadas por el hogar $i$ $(Y_i)$ y 2) que a su vez se correlaciones con el número de hijos por hogar $(W_i)$. Fácilmente, se pueden encontrar varias variables, por ejemplo años de educación de la madre.
     \begin{itemize}
-        \item $cov(W_i, edu_i)<0:$ para mujeres más educadas, es más costoso pausar su carrera profesional, por lo que tienen menos hijos.
-        \item $cov(Y_i, edu_i)>0:$ para mujeres más educadas, habrá más opotunidades profesionales, asumirán más labores, como juntas directivas, consultorías, etc.
+        \item $\text{cov}(W_i, edu_i)<0:$ Es decir, para las mujeres más educadas, es más costoso pausar su carrera profesional, por lo que tienen menos hijos.
+        \item $\text{cov}(Y_i, edu_i)>0:$ Es decir, para mujeres más educadas, habrá más oportunidades profesionales, asumirán más labores, como juntas directivas, consultorías, etc.
 \end{itemize}
 Otra variable es un indicador de si el hogar es monoparental. La crianza es más complicada y como la persona a cargo tiene más responsabilidades, se esperaría que tenga menos horas laborales así como un menor número de hijos.
 
 Gráficamente,
+
 \begin{center}
 \begin{tikzpicture}[
     every node/.style={draw=none, text width=1.5cm, align=center, font=\small}, 
@@ -403,6 +415,9 @@ Gráficamente,
 
 \end{tikzpicture}
 \end{center}
+
+Donde en el gráfico anterior la línea punteada representa las variables no incluidas en la ecuación \ref{eq1p2}, esto no necesariamente significa que no son observadas/no observables.
+
 \end{solucion}
 \end{enumerate}
 
@@ -493,10 +508,14 @@ donde
             \end{equation} 
 
             \item Asuma el resultado anterior.\footnote{\footnotesize{Si usted desea conocer la prueba de la ecuación \ref{numerador} visite el artículo de \href{https://www.jstor.org/stable/2291054}{Angrist \& Imbens (1995)}} o \href{https://ideas.repec.org/p/fri/fribow/fribow00492.html}{Eckhof \& Huber (2018)}} Explique en sus palabras qué quiere decir el condicional $W_i^1 \geq j > W_i^0$. En particular, ¿cuáles son las condiciones de los hogares que cumplen con este criterio? (\textit{Máximo 150 palabras}).
-            \begin{solucion}
-            $W_i^1 \geq j $: dice que el numero de hijos que tendría el hogar dado que en linea base eran del mismo sexo (Z==1), es mayor a $j$.\\
-            $j > W_i^0 $: dice que el numero de hijos que tendría el hogar dado que en linea base eran de diferente sexo (Z==0), es menor a $j$.\\
 
+            
+            \begin{solucion}
+            $W_i^1 \geq j $: Indica que el numero de hijos que tendría (potencialmente) el hogar dado que en linea base eran del mismo sexo (Z=1), es mayor o igual a $j$.\\
+            $j > W_i^0 $: Indica que el numero de hijos que tendría el hogar dado que en linea base eran de diferente sexo (Z=0), es menor a $j$.\\
+
+            Por lo tanto $W_i^1\geq j > W_i^0$ se puede interpretar como una condición que cuando se cumple identifica hogares $i$ para los cuáles el número de hijos potenciales si en línea base los hijos son del mismo sexo es \textit{mayor} al número de hijos potenciales si en línea base los hijos son de diferente sexo, en particular, puesto que por transitividad de los reales $W_i^1> W_i^0$, que es precisamente el supuesto de \textbf{monotonicidad} pues identifica los compliers XXXXX \colorbox{yellow}{en el $j$-ésimo hijo(????)}.
+            
             Entonces $W_i^1 \geq j > W_i^0$ representa a los hogares del mismo sexo, que empezaron a tener mas hijos a fin de tener hijos de diferente sexo y que en el hijo j esimo lograron teenr el hijo de diferente sexo....\\
             
             la cantidad de hijos adicionales que el hogar $i$ empezó a tener a fin de tener un hijo de otro sexo. Note que si el hogar ya tenía hijos de diferente sexo en línea base, entonces no importa, no lo está contando. Pero si el hogar tenia hijos del mismo sexo en línea base, entonces hasta el hijo $j-1$ tenian hijos del mismo sexo y justo en $j$ ya tienen un hijo de un sexo diferente. Ahora, puede que en línea base hayan tenido menos de $j-1$ hijos y que hayan intentado y les haya salido hijos del mismo sexo.\\
@@ -672,20 +691,73 @@ donde \(w_i\) es un vector de controles exógenos, y \(\varepsilon_i\) es el té
     
     \textit{Pista: Asegúrese de entender la estructura del instrumento antes de continuar con el ejercicio.}
 \begin{solucion}
+\textcolor{red}{Ana M.}
 \end{solucion}
 
     \item[2] Para que $z_i$ sea un instrumento válido, debe cumplir la restricción de exclusión $E[z_i \varepsilon_i] = 0$. A continuación utilizaremos la estructura de (\ref{eq:shift-share}) para proponer tres argumentos distintos a partir de los cuales $z_i$ sería un instrumento valido para el modelo estructural. \\
         
         \textit{Pista: Reemplace la estructura del instrumento en la restricción de exclusión}
     \begin{itemize}
-        \item[a)] Suponga que $\mathbb{E}[s_{ik} \varepsilon_i]=\mathbb{E}[g_{ik} \varepsilon_i]=0$. ¿Cumpliría $z_i$ la restricción de exclusión? Explique e interprete.
+         \item[a)] Suponga que $\mathbb{E}[s_{ik} \varepsilon_i]=\mathbb{E}[g_{ik} \varepsilon_i]=0$. ¿Cumpliría $z_i$ la restricción de exclusión? Explique e interprete.
         \begin{solucion}
+        Sí se cumple.\\
+        
+        \textbf{Explicación:} Para que $z_i$ cumpla la restricción de exclusión, queremos que $[z_i \varepsilon_i]=0$. Ahora reescribiendo, tenemos que:
+        \begin{equation}\label{exogeneidad3}
+    \mathbb{E}[z_i \varepsilon_i] = \mathbb{E} \left[ \sum_{k=1}^K s_{ik} g_k \varepsilon_i \right] = \sum_{k=1}^K \mathbb{E}[s_{ik} g_k \varepsilon_i]
+\end{equation}
+Y cada uno de los términos de la sumatoria es 0. Esto es $\mathbb{E}[s_{ik} g_k \varepsilon_i]=0 \: \forall \:k.$ La razón es esta secuencia de pasos:
+\begin{itemize}
+    \item $\mathbb{E}[s_{ik}  \varepsilon_i] = 0 $ implica que $ \text{Cov}(s_{ik}\varepsilon_i)=0$. Esto porque  \begin{equation*}\text{Cov}(s_{ik}, \varepsilon_i) =
+\mathbb{E}[s_{ik} \varepsilon_i] - \mathbb{E}[s_{ik}] \cdot \mathbb{E}[\varepsilon_i]
+\end{equation*}
+Como  \( \mathbb{E}[\varepsilon_i] = 0 \), entonces 
+ \begin{equation*}
+        \text{Cov}(s_{ik},  \varepsilon_i) =
+\mathbb{E}[s_{ik} g_k \varepsilon_i] 
+\end{equation*}
+Lo mismo se tiene para $\mathbb{E}[ g_k \varepsilon_i] =0$
+    \item Entonces como $E[s_{ik}\varepsilon_i] = 0$, el share de la industria $k$ en la región $i$ (estructura industrial preexistente), no está correlacionado con  factores no observados que afectan el crecimiento del empleo regional $\varepsilon_i$ 
+    \item De manera análoga, $E[g_{k}\varepsilon_i] = 0$, implica que el shift de la industria $k$ (el cambio en importaciones a nivel nacional que recibe la industria $k$) , no está correlacionado con  factores no observados que afectan el crecimiento del empleo regional $\varepsilon_i$ 
+    \item Ahora,  note que $E[g_{k}s_{ik}]$ debería ser cero también, pues la estructura industrial preexistente en cada región ($s_{ik})$ está fija y no debería estar correlacionada con el cambio en las importaciones a nivel nacional en dicha industria ($g_{k}$). Esto no depende de las hipótesis del inciso a) sino de la construcción del ejercicio \textit{per se}.
+    \item Entonces como no hay relación sistemática entre \(s_{ik}\), \(\varepsilon_i\), y \(g_k\), 
+    \[\mathbb{E}[s_{ik} g_k \varepsilon_i] =
+ s_{ik} \cdot \mathbb{E}[g_k \varepsilon_i] =0  
+\] 
+\end{itemize} 
+%Nota: nos saltamos un paso, pero podríamos decir que $ \mathbb{E}[s_{ik} g_k \varepsilon_i] =\mathbb{E}[s_{ik} ] \cdot \mathbb{E}[g_k]\cdot \mathbb{E}[ \varepsilon_i] =0 $ porque el error es estocástico.
+
+\textbf{Interpretación:}\noindent En el escenario ideal del caso (a), ni la estructura industrial preexistente de la región ($s_{ik}$) ni los choques nacionales de importaciones ($g_k$) están correlacionados con otros factores no observados que afectan el crecimiento del empleo regional ($\varepsilon_i$). En otras palabras, la exposición de la región al "China shock" a través de $z_i$ es independiente de cualquier otra variable no medida que influya en el resultado ($y_i$). Esto permitiría usar $z_i$ como un instrumento apropiado para estimar el efecto causal del cambio en las importaciones chinas ($x_i$) sobre el crecimiento del empleo regional ($y_i$).
+
+
 \end{solucion}
         \item[b)] Suponga que $\mathbb{E}[s_{ik}\varepsilon_i] = 0$, pero que $\mathbb{E}[g_k\varepsilon_i] \neq 0$. ¿Cumpliría $z_i$ la restricción de exclusión? Describa e interprete brevemente bajo qué condiciones se presenta este caso.
         \begin{solucion}
+         No se cumple.\\
+         
+        \textbf{Explicación:} Continuando con \ref{exogeneidad3}, en este caso no podemos suponer que $\mathbb{E}[s_{ik} g_k \varepsilon_i]=0 \: \forall \:k.$ Note que acá, las hipótesis solo nos dicen que no hay relación sistemática entre \(s_{ik}\), \(\varepsilon_i\). Adicionalmente, bajo las condiciones los shares son fijos y tampoco debería haber relación sistemática entre \(s_{ik}\), \(g_k\) pero no sabemos nada más, entonces como $\mathbb{E}[g_k \varepsilon_i]\neq 0$, tenemos que:
+    \[\mathbb{E}[s_{ik} g_k \varepsilon_i] =
+ s_{ik} \cdot \mathbb{E}[g_k \varepsilon_i]\neq 0
+\] 
+        
+
+\textbf{Interpretación:}  La correlación entre los shocks $g_k$ y el término de error $\varepsilon_i$ genera una dependencia que contamina la exogeneidad del instrumento. Brevemente, este caso se podría presentar cuando los cambios significativos en importaciones chinas ($g_k$) se presentan en industrias, que por ejemplo ya estaban en declive debido a factores estructurales no observados, como la obsolescencia tecnológica o la falta de inversión en capital humano. Estos factores estructurales, reflejados en el término de error $\varepsilon_i$, también contribuyen a una disminución en las tasas de empleo regional ($y_i$). En este escenario, el aumento de las importaciones chinas ($g_k$) no solo influye en el instrumento ($z_i$), sino que también afecta directamente la variable de resultado ($y_i$), ya que exacerba el declive de las industrias vulnerables y, por lo tanto, reduce aún más el empleo regional. \\
+En general, la condición para que se presente este caso es que choques de importaciones ($g_k$) estén influenciados por factores que también afectan directamente el crecimiento del empleo regional ($y_i$) a través de canales no observados.
 \end{solucion}
         \item[c)] Suponga que $\mathbb{E}[g_k\varepsilon_i] = 0$ pero que $\mathbb{E}[s_{ik}\varepsilon_i] \neq 0$. ¿Cumpliría $z_i$ la restricción de exclusión? Describa e interprete brevemente bajo qué condiciones se presenta este caso.
         \begin{solucion}
+
+        Sí se cumple.\\
+
+        \textbf{Explicación:} Continuando con \ref{exogeneidad3}, en este escenario, los shares siguen siendo fijos, entonces 
+    \[\mathbb{E}[s_{ik} g_k \varepsilon_i] =
+ s_{ik} \cdot \mathbb{E}[g_k \varepsilon_i] \implies   \sum_{k=1}^K \mathbb{E}[s_{ik} g_k \varepsilon_i]=0
+\] 
+        
+\textbf{Interpretación:}  El caso cuando $\mathbb{E}[s_{ik}\varepsilon_i] \neq 0$, se presenta cuando la estructura industrial preexistente de la región esta influenciada por factores no observados que,  también están afectando el crecimiento del empleo regional durante el período de análisis. Por ejemplo, se podría argumentar que regiones como Detroit tenían un \( s_{ik} \) elevado en industrias tradicionales como la manufactura pesada y la siderurgia. Sin embargo, también presentaban condiciones estructurales desfavorables, como baja inversión en innovación, capital humano reducido y dependencia de grandes empleadores. Estas características locales forman parte del término de error estructural \( \varepsilon_i \), lo que implica que \( \mathbb{E}[s_{ik} \varepsilon_i] \ne 0 \). Aun así, los shocks \( g_k \), como la creciente competencia internacional ( China auemntando su producción) o el avance tecnológico global, son considerados exógenos desde el punto de vista regional, ya que no son causados por condiciones específicas de Detroit u otras ciudades. Por lo tanto, se puede asumir que \( \mathbb{E}[g_k \varepsilon_i] = 0 \), y que el instrumento shift-share basado en esos shocks sigue siendo válido.
+(Tomado de: \href{https://www.detroitnews.com/story/opinion/2014/10/06/rebuild-detroit-nurture-human-capital/16824019/}{Rebuild Detroit: Nurture human capital}). 
+En conclusión,  aunque el nivel de especialización sectorial de una región (dado por \( s_{ik} \)) esté correlacionado con su desempeño estructural(dado por $\varepsilon_i $), el instrumento \textit{shift-share} puede seguir siendo válido si los shocks agregados a los sectores \( g_k \) son exógenos y los \textit{shares} \( s_{ik} \) son fijos.
+ 
 \end{solucion}
 
     \end{itemize}
@@ -702,6 +774,45 @@ Denote $y^{\perp}_{i}$ como el residual de proyectar linealmente $y_i$ sobre el 
     \end{align}
 
     \begin{solucion}
+    \textbf{NOTA:} En adelante supondremos que $\mathbb{E}[x_i^{\perp}] = \mathbb{E}[Z_i] = \mathbb{E}[\nu_i] = \mathbb{E}[\hat{x}_i^{\perp}] = 0$. Además, omitiremos el índice del iterador de la suma para simplificar la notación, así $\sum=\sum_{i=1}^N$ a menos que se indique lo contrario.
+    \begin{proof}
+        
+    
+    La primera etapa relaciona la variable endógena con nuestro instrumento: $x \sim z$. Usando FWL para residualizar los controles $w$ y obtener $x_i^\perp$ :
+\begin{equation}
+    x_i^{\perp} = \gamma z_i + \eta_i \label{eq:first_stage}
+\end{equation}
+
+La segunda etapa relaciona nuestra variable de respuesta con el valor predicho de la variable endógena de la primera etapa \ref{eq:first_stage}: $y_i \sim \hat{x}_i^\perp$, luego también usaremos $M_w y_i = y_i^{\perp}$:
+\begin{equation}
+    y_i^{\perp} = \beta \hat{x}_i^{\perp} + \nu_i \label{eq:second_stage}
+\end{equation}
+
+De \ref{eq:first_stage} y \ref{eq:second_stage} tenemos que sus respectivos valores predichos son:
+\begin{align}
+    \hat{x}_i^{\perp} &= \hat{\gamma} z_i \label{eq:fit_fs} \\
+    \hat{y}_i^{\perp} &= \hat{\beta} \hat{x}_i^{\perp} \label{eq:fit_ss}
+\end{align}
+
+Dado que estamos en el caso univariado (que lo posibilita la residualización usando FWL, pues ya se consideraron los controles), los estimadores de MCO para $\hat{\gamma}$ y $\hat{\alpha}$ son:
+\begin{align}
+    \hat{\gamma} &= \frac{\sum x_i^{\perp} z_i}{\sum z_i^2} \label{eq:gamma_hat} \\
+    \hat{\beta} &= \frac{\sum y_i^{\perp} \hat{x}_i^{\perp}}{\sum (\hat{x}_i^{\perp})^2} \label{eq:beta_hat},
+\end{align}
+
+donde el estimador de MCO en 2 etapas (2SLS) es $\hat{\beta}$.
+
+Reemplazando \ref{eq:fit_fs} en \ref{eq:beta_hat} para deshacernos de  $\hat{x}_i^{\perp}$:
+\begin{equation}
+    \hat{\beta} = \sum y_i^{\perp} \hat{\gamma} z_i \times \left( \sum (\hat{\gamma} z_i)^2 \right)^{-1} \label{eq:beta_hat2}
+\end{equation}
+
+Reemplazando \ref{eq:gamma_hat} en \ref{eq:beta_hat2}:
+\begin{align*}
+   \hat{\beta} &= \sum y_i^\perp \left[ \textcolor{gray}{\frac{\sum x_i^\perp z_i}{\sum z_i^2}} \right]z_i \times \left( \sum \left[ \textcolor{gray}{\frac{\sum x_i^\perp z_i}{\sum z_i^2}} \right]^2 z_i^2 \right)^{-1}
+\end{align*}
+
+\end{proof} 
 \end{solucion}
 
 \item[4] Usando el resultado anterior, demuestre que el estimador de SSIV (\textit{shift-share instrumental variable}) $\hat{\beta}$ es equivalente al coeficiente de la segunda etapa de una regresión IV a nivel de choque ponderada por $s_{ik}$ que utiliza los choques $g_k$ como instrumento en la estimación de 
@@ -712,21 +823,44 @@ Denote $y^{\perp}_{i}$ como el residual de proyectar linealmente $y_i$ sobre el 
     \begin{enumerate}[label=\alph*)]
         \item Escriba la expresión para el estimador SSIV $\hat{\beta}_{\text{SSIV}}$ utilizando el instrumento $z_i = \sum_k s_{ik}g_k$ a nivel de región $i$.
         \begin{solucion}
+        \textcolor{red}{Gustavo}
 \end{solucion}
         
         \item Escriba la expresión para el estimador IV $\hat{\beta}_{\text{(shock-level)}}$ a nivel de choque utilizando $g_k$ como instrumento.
         \begin{solucion}
+        textcolor{red}{Gustavo}
 \end{solucion}
         
         \item Demuestre que $\sum_k g_k\bar{y}^\perp_k = \sum_i z_i y_i^\perp$ manipulando la definición del promedio ponderado y cambiando el orden de las sumatorias. Asimismo, suponga que los shares suman a $1$, es decir $\sum_i s_{ik} = 1$.  \textit{(Pista: utilice la definición de $\bar{y}^\perp_k$ y de $z_i$)}.
 
         \begin{solucion}
+        \textcolor{red}{Gustavo}
 \end{solucion}
         \item Utilizando su resultado de la parte (c), demuestre que $\hat{\beta}_{\text{SSIV}} = \hat{\beta}_{\text{(shock-level)}}$.
         \begin{solucion}
+        \textcolor{red}{Ana M,}
 \end{solucion}
         \item Interprete este resultado de equivalencia. ¿Qué nos dice sobre la validez del enfoque SSIV? ¿Cuáles son las implicaciones para los investigadores que utilizan instrumentos de shift-share y que argumentan exogeneidad por el lado de los \textit{shifts}?
         \begin{solucion}
+        \textcolor{red}{Ana M,}
+                
+\begin{proof}
+Sabemos que:
+        \begin{equation*}
+    \hat{\beta}_{SSIV} = \frac{\sum_i \left( \sum_k s_{ik} g_k \right) y_i^\perp}{\sum_i \left( \sum_k s_{ik} g_k \right) x_i^\perp}
+\end{equation*}
+
+\begin{align*}
+    \hat{\beta}_{\text{shock-level}} 
+    &= \frac{\sum_k g_k \bar{y}_k^\perp}{\sum_k g_k \bar{x}_k^\perp}
+\end{align*}
+Entonces:
+\begin{align*}
+   \hat{\beta}_{SSIV} &= \frac{\sum_i \left( \sum_k s_{ik} g_k \right) y_i^\perp}{\sum_i \left( \sum_k s_{ik} g_k \right) x_i^\perp}\\
+   &= \frac{\sum_k g_k \bar{y}_k^\perp}{\sum_i \left( \sum_k s_{ik} g_k \right) x_i^\perp} \quad \text{(arriba mostramos que $\sum_i  \sum_k s_{ik} g_k y_i^\perp=\sum_k g_k \bar{y}_k^\perp$)}\\
+    &= \frac{\sum_k g_k \bar{y}_k^\perp}{\sum_k g_k \bar{x}_k^\perp} \quad \text{(también aplica para el denominador: $\sum_i  \sum_k s_{ik} g_k x_i^\perp=\sum_k g_k \bar{x}_k^\perp$)}
+\end{align*}
+\end{proof}
 \end{solucion}
             \end{enumerate}
 
@@ -741,10 +875,12 @@ Denote $y^{\perp}_{i}$ como el residual de proyectar linealmente $y_i$ sobre el 
 \begin{enumerate}
     \item[5] Interprete y discuta la validez de (\ref{eq:ssiv_assumption}) en el contexto estudiado por Autor et al. (2013). ¿Es plausible? Argumente su respuesta
     \begin{solucion}
+    \textcolor{red}{Gus}
 \end{solucion}
     
     \item[6] Demuestre que bajo (\ref{eq:ssiv_assumption}) $z_i$ es un buen instrumento para $x_i$. Es decir, pruebe que $\mathbb{E}[z_i \varepsilon_i]=0$ y que $\mathbb{E}[z_ix_i]\neq 0$.\footnote{Para ello, puede asumir que $\sum_i^K s_{ik} = 1$, es decir, que el instrumento puede ser interpretado como un promedio ponderado por los \textit{shares}. }
     \begin{solucion}
+    \textcolor{red}{Gus}
 \end{solucion}
 \end{enumerate}
     
@@ -753,14 +889,16 @@ Una estrategia diferente para lograr la identificación con un instrumento de ti
 \begin{enumerate}
     \item[7] Plantee la condición de momento que debe satisfacerse para que, desde la perspectiva de los \textit{shares}, un SSIV sea un  instrumento válido
     \begin{solucion}
+    \textcolor{red}{Ana}
 \end{solucion}
 
     \item[8] Discuta la plausibilidad del cumplimiento del supuesto planteado en el inciso anterior. Puede ayudarse de un ejemplo concreto para desarrollar su argumento.
     \begin{solucion}
+    \textcolor{red}{Ana}
 \end{solucion}
     
     \item[9] Realice una breve comparación entre las argumentaciones de exogeneidad de un SSIV (i.e., compara el \textit{shares}-approach vs el \textit{shift}-approach). Presente su comparación en la siguiente tabla.
-
+\textcolor{red}{Ana}
 \begin{table}[H]
 \centering
 \caption{Resumen de Instrumentos Shift-Share}
@@ -804,6 +942,7 @@ donde $l$ es un indicador de la ciudad y $j$ indexa un subpoblación caracteriza
 
     \item[a)] Expliquen qué tipo de relación captura $\tau$ entre $w_{lj}$ y $r_{lj}$. ¿Dado el contexto, será el estimador de MCO $\hat{\tau}$ consistente para $\tau$? Justifique su respuesta.\\
     \begin{solucion}
+    \textcolor{red}{Parte practica : Ana M.}
 \end{solucion}
 \end{itemize}   
 
