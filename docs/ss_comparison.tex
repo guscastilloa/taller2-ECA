@@ -1,0 +1,16 @@
+% \begin{table}[htbp]
+% \centering
+\begin{tabularx}{\textwidth}{l X X}
+\toprule
+\textbf{Característica} & \textbf{Nivel de Región ($i$)} & \textbf{Nivel de Shock ($k$)} \\
+\midrule
+\textbf{Unidad de análisis} & Ubicación geográfica (por ejemplo, región) & Industria (shock sectorial) \\
+\textbf{Ecuación estructural} & $y_i = \beta x_i + \varepsilon_i$ & $\bar{y}_k = \beta \bar{x}_k + \bar{\varepsilon}_k$ \\
+\textbf{Estimando} & $\beta$ & $\beta$ \\
+\textbf{Estimador} & $\hat{\beta}_{SSIV}=\frac{\sum_i\sum_ks_{ik}g_ky_i}{\sum_i\sum_ks_{ik}g_kx_i}$ & $\hat{\beta}_{shock-level}=\frac{\sum_kg_k\sum_is_{ik}y_i}{\sum_kg_k\sum_is_{ik}x_i}$ \\
+\textbf{Variación instrumental} & Proviene de shocks $g_k$ a través de los pesos $s_{ik}$ & Variación de $g_k$ agregando $i$   \\
+\bottomrule
+
+\end{tabularx}
+% \caption{Comparación entre niveles de análisis en métodos de variación instrumental}
+% \end{table}
