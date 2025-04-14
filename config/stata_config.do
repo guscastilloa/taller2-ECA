@@ -7,12 +7,12 @@
 /* Detección del sistema operativo y configuración de rutas */
 if regexm(c(os), "Mac") {
     // Configuración para Mac (Gustavo Castillo)
-    global root_dir "/Users/upar/Downloads/taller1-ECA"
+    global root_dir "/Users/upar/Downloads/taller2-ECA"
     global user_name "upar"
 }
 else if regexm(c(os), "Windows") {
     // Configuración para Windows (Ana María Patrón)
-    global root_dir "C:/Users/username/Documents/GitHub/taller1-ECA"
+    global root_dir "C:/Users/username/Documents/GitHub/taller2-ECA"
     global user_name "coauteur"
 }
 else {
