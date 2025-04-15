@@ -1,0 +1,24 @@
+\begin{tabular}{lcccc}
+\multicolumn{5}{c}{Regresiones de polinomios globales del resultado electoral general sobre el margen de victoria en primarias} \\ \hline
+ & (1) & (2) & (3) & (4) \\
+ & Orden 1 & Orden 2 & Orden 1 & Orden 2 \\
+VARIABLES & Sin Controles & Sin Controles & Con Controles & Con Controles \\ \hline
+ &  &  &  &  \\
+primary\_winner = 1 & 0.0209 &  &  &  \\
+ & (0.0674) &  &  &  \\
+PrimMargin & -0.627*** & 0.869** & -0.468*** & 0.554 \\
+ & (0.108) & (0.427) & (0.0957) & (0.354) \\
+0b.primary\_winner\#co.PrimMargin & 0 &  &  &  \\
+ & (0) &  &  &  \\
+1.primary\_winner\#c.PrimMargin & 1.155*** & -0.177 & 0.370*** & -0.125 \\
+ & (0.172) & (0.629) & (0.132) & (0.489) \\
+Constante & 0.207*** & 0.364*** & -0.779*** & -0.648*** \\
+ & (0.0452) & (0.0639) & (0.0904) & (0.106) \\
+ &  &  &  &  \\
+Observations & 484 & 484 & 484 & 484 \\
+R-squared & 0.089 & 0.113 & 0.466 & 0.480 \\
+ Controles & No & No & Sí & Sí \\ \hline
+\multicolumn{5}{c}{ Robust standard errors in parentheses} \\
+\multicolumn{5}{c}{ *** p$<$0.01, ** p$<$0.05, * p$<$0.1} \\
+\multicolumn{5}{c}{ Errores estandar en parentesis. * p$<$0.01, ** p$<$0.05, * p$<$0.1} \\
+\end{tabular}

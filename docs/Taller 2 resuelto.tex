@@ -178,7 +178,6 @@ Ana María Patrón Piñerez -201714291
 
 \medskip\hrule 
 \bigskip
-\textcolor{red}{revisar: punto 1 literal 7.d,  punto 1 literal 4.d,  punto 1 literal 5, descargar bases de datos y verificar que sean mismo valores, completar la tabla del 3}
 \section*{Primer Ejercicio}
 
 El Diseño de Regresión Discontinua (RDD o simplemente RD, por sus siglas en inglés) es uno de los métodos no experimentales más utilizados para la inferencia causal y la evaluación de programas. En la actualidad, cuenta con una sólida base metodológica para la identificación, estimación, inferencia y validación \href{https://arxiv.org/abs/2108.09400}{(Cattaneo \& Titiunik, 2022)}. Una de las aplicaciones más comunes de RD es el análisis de temas de economía política en el contexto de elecciones cerradas (\textit{close elections}) \href{https://www.annualreviews.org/content/journals/10.1146/annurev-polisci-032015-010115}{(de la Cuesta \& Imai, 2016)}. En estos estudios, es común evaluar el impacto de características observables de los políticos electos sobre diversas variables de resultado. Por ejemplo, algunos trabajos comparan el desempeño de hombres y mujeres que han obtenido cargos públicos por márgenes estrechos, lo que, en principio, permite aislar el efecto del género mientras se mantienen constantes otras características observables y no observables. \\
@@ -306,14 +305,14 @@ Hay muchas teorías detrás y esta es solo una de ellas, pero el punto es que en
 
 \begin{itemize}
      \item Ofrece estimaciones más robustas a valores atípicos, ya que ajusta una recta en un entorno local alrededor del punto de corte.
-    \item Es menos susceptible a problemas de sobreajuste (\textit{overfitting}) en comparación con modelos más complejos.
-    \item Facilita la interpretación del efecto estimado, dado que la relación entre la variable de resultado y la de corte se modela de forma simple y directa.
+    \item Es menos susceptible a problemas de sobreajuste (\textit{overfitting}) y a error de especificación de la forma funcional en comparación con modelos parametrizados.
+    \item Hay campo para pruebas de robustez pues se pueden variar muchas cosas: el ancho de banda, el kernel, etc.
 \end{itemize}
 
 \textbf{Desventajas }
 
 \begin{itemize}
-    \item La elección del ancho de banda es crucial y puede influir significativamente en las estimaciones; un ancho de banda muy pequeño puede resultar en estimaciones ruidosas, mientras que uno muy grande puede suavizar demasiado las diferencias en los datos.
+    \item La elección del ancho de banda es crucial y puede influir significativamente en las estimaciones; un ancho de banda muy pequeño puede resultar en estimaciones ruidosas, menos muestra y por lo tanto menos precsión, mientras que uno muy grande puede suavizar demasiado las diferencias en los datos
 
     \item La regresión lineal local puede no captar patrones más complejos en los datos si la relación subyacente no es lineal en la zona cercana al punto de corte.
 \end{itemize}
@@ -325,16 +324,15 @@ Hay muchas teorías detrás y esta es solo una de ellas, pero el punto es que en
 
 \begin{itemize}
     \item El uso de un polinomio de grado 2 puede captar mejor las curvaturas en los datos, lo que es útil si la relación entre las variables no es lineal. Esto puede proporcionar un ajuste más adecuado si la verdadera relación tiene una forma más compleja.
+    \item Mayor precisión (menor varianza) pues utiliza la totalidad de la muestra
 \end{itemize}
 
 \textbf{Desventajas  }
 
 \begin{itemize}
-    \item Los polinomios de grado más alto pueden ser susceptibles al sobreajuste (\textit{overfitting}), especialmente si hay ruido en los datos. Esto puede llevar a estimaciones poco fiables que no generalizan bien a otros contextos.
-    
-    \item También son más complicados de interpretar en comparación con modelos lineales, ya que las interacciones entre los términos polinómicos pueden hacer que los resultados sean difíciles de entender.
+    \item Los polinomios de grado más alto pueden ser susceptibles al sobreajuste (\textit{overfitting}).  
+    \item Arriesga no capturar el efecto de tratamiento deseado si se especifica mal la forma funcional 
 \end{itemize}
-\textcolor{red}{cambiar esto, chatgpt}
 
 \end{solucion}
         \item Escriba explícitamente la ecuación a estimar.
@@ -390,20 +388,21 @@ Si se cumplen los supuestos del diseño de regresión discontinua (RD), particul
 \end{solucion}
         \item Como prueba de robustez, en la regresión lineal local utilice tres anchos de banda: $BW = 0.15, 0.10$ y $0.05$.
 \begin{solucion}
-\textcolor{red}{revisar esto}
 Nota: se incluyen los resultados para la estimación parámetrica tanto para los bandwiths como para la muestra total. El último solo se incluye a manera de complementar los resultados, pero no son informativos sobre el efecto pues buscamos es un efecto local y no global. Además, también se incluye la regresión no parámetrica con kernel triangular ya que los resultados con kernel uniforme son los mismos de la regresión parámetrica. La comparativa de los resultados se encuentra en la tabla a continuación. Posteriormente, se va desglosando cada resultado en detalle:
 
 \subsection*{I. Consolidado de resultados}
 
 \begin{table}[H]
 \centering
-\caption{Resúmen tablas resultados}
+\caption{Regresiones lineales locales de ganar elecciones generales en margen de victoria de primarias}
 \resizebox{\linewidth}{!}{%
-  \input{output/tables/table1-RDD}
+  \input{output/tables/tbl_local}
 }
+{\footnotesize Nota: Errores estándar en paréntesis.}
 \end{table}
 
-    \textcolor{red}{Acá va taba Gustavo}
+
+
 
 
     
@@ -474,7 +473,44 @@ $R^2$ & 0.113 & 0.056 & 0.107 & 0.265 \\
 \end{table}
 
  \subsection*{III. Estimación no parámetrica sin controles y Kernel Triangular}
- \textcolor{red}{poner tabña Gustavo}
+\textbf{Regresión lineal local sin controles}
+
+\begin{table}[H]
+\centering
+\caption{Efecto de ganar la primaria sobre ganar la elección general (RDD)}
+\label{tab:rdd_genwin_bandwidths}
+\begin{tabular}{lccc}
+\toprule
+\multicolumn{4}{c}{\textbf{Elecciones Generales}} \\
+\cmidrule(lr){2-4}
+& BW = 0.05 & BW = 0.1 & BW = 0.15 \\
+\midrule
+Ganar mujer primaria & -0.01997 & -0.29981 & -0.35964 \\
+Error estándar       & (0.43687) & (0.27632) & (0.21548) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+\textbf{Polinomio global de grado 2 sin controles}
+\textbf{Regresión lineal local sin controles}
+
+\begin{table}[H]
+\centering
+\caption{Efecto de ganar la primaria sobre ganar la elección general (RDD, polinomio de orden 2)}
+\label{tab:rdd_genwin_bandwidths_poly2}
+\begin{tabular}{lccc}
+\toprule
+\multicolumn{4}{c}{\textbf{Elecciones Generales}} \\
+\cmidrule(lr){2-4}
+& BW = 0.05 & BW = 0.1 & BW = 0.15 \\
+\midrule
+Ganar mujer primaria & 0.58144  & -0.19762 & -0.24940 \\
+Error estándar       & (0.73556) & (0.44238) & (0.34408) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 \subsection*{IV. Estimación parámetrica con controles}
 Se presenta igualmente la regresión con controles (los usados en el paper original): \textit{
  Presidential Vote Share en T-1, Dummy de Incumbent, Presidential Election Year, y
@@ -587,11 +623,10 @@ Estos resultados sugieren posibles divisiones dentro de los partidos que se agud
 
 \end{solucion}
     \end{enumerate}
-\textcolor{red}{revisar estas argumentaciones de efecto genero y de nominacion}
     \item En su investigación, \href{https://link.springer.com/article/10.1007/s11109-017-9407-7}{Bucchianeri (2018)} es muy cuidadoso con la interpretación del efecto estimado: ``[...] es importante aclarar que el diseño de regresión discontinua (RDD) en este caso está identificando el efecto causal de nominar a una candidata [mujer] y no el efecto causal del género.'' 
 
     \begin{enumerate}
-        \item ¿Cuál es la diferencia entre los dos efectos que el autor menciona?**********************
+        \item ¿Cuál es la diferencia entre los dos efectos que el autor menciona?
 \begin{solucion}
 Note que ambos efectos son muy distintos. Específicamente:
 
@@ -615,7 +650,7 @@ El efecto de nominar a una candidata mujer ya incorpora todas las característic
 
 Como ya mencioné arriba, un efecto causal de solo género tendría menor validez interna, no es del todo recuperable  con este diseño de RD, de \textit{close election } especificamente, pues otras variables estarían cambiando y la discontinudad en la probabilidad de ganar las generales no va a ser solo atribuible a ser hombre o mujer ( note que no ocurre en el ejemplo de arriba, la educación también cambia con el genéro).Habría muchos más obstaculos para la identificación, no se cumple resultados potenciales por lo mismo.  Así, tocaría rediseñar el experimento y ver si la estructura de los datos es compatible con el re-diseño, etc. Por tanto, ante todos los problema que supone el segundo efecto en este contexto, preferiría explorar el primer efecto.
 
-\textcolor{red}{revisar: pg 12 buchaneri, }
+% \textcolor{red}{revisar: pg 12 buchaneri, }
 \end{solucion}        
     \end{enumerate}
   
@@ -645,7 +680,7 @@ Intuitivamente, esto quiere decir que la probabilidad de ser mujer dado que gan�
     \mathbb{P}(\text{Mujer} \mid \text{Nominado}) \neq \mathbb{P}(\text{Hombre} \mid \text{Nominado})
     \]
 
-******Así, la intuicion es que las mujeres nominadas son sistemáticamente distinta de los hombres nominados. En en contexto de \textit{close elections} que plantea Bucchianeri (2018), no se asigna aleatoriamente la característica de ser mujer, lo que significa que las candidatas femeninas no están en igualdad de condiciones con sus contrapartes masculinas. La naturaleza competitiva de estas elecciones puede llevar a que las mujeres enfrenten barreras adicionales y sesgos basados en género que afectan sus posibilidades de éxito. Esto complica la evaluación del efecto del género en los resultados electorales, ya que la selección de candidatos puede depender de factores que no son distribuidos de manera aleatoria, lo que limita la capacidad de hacer inferencias causales claras sobre el impacto del género en estas situaciones.
+Así, la intuicion es que las mujeres nominadas son sistemáticamente distinta de los hombres nominados. En en contexto de \textit{close elections} que plantea Bucchianeri (2018), no se asigna aleatoriamente la característica de ser mujer, lo que significa que las candidatas femeninas no están en igualdad de condiciones con sus contrapartes masculinas. La naturaleza competitiva de estas elecciones puede llevar a que las mujeres enfrenten barreras adicionales y sesgos basados en género que afectan sus posibilidades de éxito. Esto complica la evaluación del efecto del género en los resultados electorales, ya que la selección de candidatos puede depender de factores que no son distribuidos de manera aleatoria, lo que limita la capacidad de hacer inferencias causales claras sobre el impacto del género en estas situaciones.
 
 \textbf{ii) al concentrarse en elecciones cerradas, la característica de interés puede directamente
 determinar la variable de focalización (el margen de votos).}\\
@@ -657,9 +692,9 @@ En un escenario competitivo ideal, estas probabilidades deberían ser iguales, p
 
 
 \textbf{Retos identificación efecto causal}
- Evaluar el efecto de ser mujer sobre la probabilidad de ganar elecciones generales presenta varios retos en la identificación del efecto causal. Primero, los problemas de selección pueden surgir si las mujeres que son nominadas  no son comparables a los de los hombres, confundiendo así el impacto del género con otros factores como la calidad del candidato y el contexto político. Además, la omisión de variables clave como el apoyo del partido y el gasto de campaña puede sesgar los estimativos. Las percepciones de los votantes y los estereotipos de género influyen en las decisiones electorales, complicando aún más la interpretación de los resultados. Asimismo, la naturaleza competitiva de las elecciones afecta cómo se manifiestan estos efectos, y los hallazgos derivados de clásicos diseños de estudio pueden carecer de generalizabilidad a otros contextos electorales. Estos factores resaltan la necesidad de enfoques de investigación robustos que minimicen sesgos y permitan una identificación clara del impacto del género en el éxito electoral.
+ Evaluar el efecto de ser mujer sobre la probabilidad de ganar elecciones generales presenta varios retos en la identificación del efecto causal. Primero, los problemas de selección pueden surgir si las mujeres que son nominadas  no son comparables a los de los hombres, confundiendo así el impacto del género con otros factores como la calidad del candidato y el contexto político. Además, la omisión de variables clave como el apoyo del partido y el gasto de campaña puede sesgar las estimaciones. Las percepciones de los votantes y los estereotipos de género influyen en las decisiones electorales, complicando aún más la interpretación de los resultados. Asimismo, la naturaleza competitiva de las elecciones afecta cómo se manifiestan estos efectos, y los hallazgos derivados de clásicos diseños de estudio pueden carecer de generalizabilidad a otros contextos electorales. Estos factores resaltan la necesidad de enfoques de investigación robustos que minimicen sesgos y permitan una identificación clara del impacto del género en el éxito electoral.
  
-\textcolor{red}{revisar!!!!!}      
+% \textcolor{red}{revisar!!!!!}      
 \end{solucion}
 \end{enumerate}
 
@@ -688,10 +723,10 @@ donde $W_i-W_j \sim \mathcal{N}(0, \sigma_W^2)$ es la resta del compensador dife
 
         \item Explique breve e intuitivamente por qué $Female_i \; \indep \; W_i, W_j$ es un ``best case scenario''.
        \begin{solucion}
-La condición $Female_i \; \indep \; W_i, W_j$ implica que el hecho de que una candidata sea mujer no está correlacionada con la característica que es compensadora diferencial ni con la de su contrincante. Es decir, el género está asignado de forma casi aleatoria respecto a los atributos que también afectan el resultado electoral.Por ejemplo, si el compensador es poca experiencia en el sector público, entonces ser mujer no está correlacionado con tener menos experiencia ni con que su contrincante tenga menos experiencia, asemejandose a una 'aleatorización'. (Nota: como $W_i$ tiene un efecto negativo, entonces tiene que ser que para los hombres la característica sea alta y para las mujeres la característica sea baja, luego en vez de decir años de educación o años de experiencia en sector publico, se dice años sin educación o poca experiencia en sector público.La interpretación hubiese sido más directa si $W_i$ tuviese impacto positivo)\\
+La condición $Female_i \; \indep \; W_i, W_j$ implica que el hecho de que una candidata sea mujer no está correlacionada con la característica que es compensadora diferencial de sí misma ni con la de su contrincante. Es decir, el género está asignado de forma casi aleatoria respecto a los atributos que también afectan el resultado electoral. Por ejemplo, si el compensador es poca experiencia en el sector público, entonces ser mujer no está correlacionado con tener menos experiencia ni con que su contrincante tenga menos experiencia, asemejandose a una 'aleatorización'. (Nota: como $W_i$ tiene un efecto negativo, entonces tiene que ser que para los hombres la característica sea alta y para las mujeres la característica sea baja, luego en vez de decir años de educación o años de experiencia en sector publico, se dice años sin educación o poca experiencia en sector público.La interpretación hubiese sido más directa si $W_i$ tuviese impacto positivo)\\
 
 Esto constituye un ``best case scenario'' porque permite interpretar el parámetro $\tau$ como el efecto causal de que la candidata sea mujer, sin que ese efecto esté contaminado por diferencias sistemáticas en otras características relevantes. En otras palabras, elimina el riesgo de confundir el efecto de género con el efecto de variables asociadas al género (como la experiencia en el sector público). Por tanto, cualquier efecto estimado puede ser atribuido directamente a la variable de interés: el género del candidato. 
-\textcolor{red}{revisar}
+% \textcolor{red}{revisar}
 \end{solucion}
             
         \item Demuestre que si en una consulta interna que enfrenta a una política $i$ y a un político $j$ ambos reciben exactamente el mismo número de votos, entonces
@@ -702,7 +737,7 @@ Esto constituye un ``best case scenario'' porque permite interpretar el parámet
 
         Interprete brevemente los mecanismos que podrían justificar este empate.
 \begin{solucion}
-\textcolor{red}{Gus}
+% \textcolor{red}{Gus}
 \textbf{Claim:}$ \beta_F + \beta_W(W_i - W_j) + (\epsilon_i - \epsilon_j)  = 0$
 \begin{proof}
 Suponga que en una consulta interna que enfrenta a una política $i$ y a un político $j$ ambos reciben exactamente el mismo número de votos. Esto es:
@@ -858,7 +893,7 @@ Esta expresión proviene directamente del proyector de mínimos cuadrados de \( 
  \end{proof}
 
 \end{mdframed}
-\textcolor{red}{revisar esto}
+% \textcolor{red}{revisar esto}
 \end{solucion}
         \item ¿Por qué  el estimador de RD subestima el efecto causal de ser mujer? Justifique intuitivamente y de un ejemplo de un \textbf{compensador diferencial} que cumple esto.
         \begin{solucion}
@@ -1285,16 +1320,27 @@ donde \(w_i\) es un vector de controles exógenos, y \(\varepsilon_i\) es el té
     
     \textit{Pista: Asegúrese de entender la estructura del instrumento antes de continuar con el ejercicio.}
 \begin{solucion}
-Para cada industria $k=1,\dots,K$, el instrumento es una suma ponderada de los choques que recibe cada industria $g_k$ sobre la 'importancia'  relativa de la industria $k$ en la economía de la región $i$.Así, cada región, tendrá un valor asociado a su cambio en importaciones, capturado en $\sum_{k=1}^{K} s_{ik}\,g_k$ . La magnitud del choque se pondera por la proporción (\textit{share}) o participación de la industria $k$ en el empleo de la región $i$. 
+\textbf{Interpretación}
+ Para cada región, el instrumento es una suma ponderada de los choques   que recibe cada industria a nivel nacional $g_k$, donde $k=1,\dots,K$. La magnitud del choque se pondera por la proporción (\textit{share}) o participación de la industria $k$ en el empleo de la región $i$. Así, cada región, tendrá un valor asociado a su cambio en importaciones, capturado en $\sum_{k=1}^{K} s_{ik}\,g_k$. 
 
-Ejemplo:
+\textbf{Ejemplo}
 
-Si quisiéramos estudiar los efectos de la llegada de tecnologías, por ejemplo la inteligencia artificial generativa, en los empleos de una ciudad, se podría considerar como unidad de análisis las regiones $i$ (UPZs en bogotá, áreas metropolitanas en otras ciudades, etc) de una ciudad. El tratamiento sería la exposición de $i$ y se agregaría a nivel de ocupación $k$
+Supongamos que queremos estudiar el impacto de la inteligencia artificial generativa (IAG) sobre el empleo en distintas regiones urbanas de una ciudad. Una forma de hacerlo es construyendo un instrumento tipo shift-share que mida la exposición regional a la IAG a través de la composición ocupacional de cada región.
+
+La unidad de análisis será la región \( i \) (por ejemplo, una UPZ en Bogotá o una comuna/metropolitana en otra ciudad). El tratamiento es la exposición estimada de la región \( i \) a los avances en IAG. Esta se calcula como:
+
+\[
+z_i = \sum_{k=1}^{K} s_{ik} \cdot g_k
+\]
+
+donde:
 \begin{itemize}
-    \item \textit{Shares}/proporciones: Proporción de la ocupación $k$ en la región $i$.
-    \item \textit{Shifts}: Exposición nacional por ocupación $k$
-    \colorbox{yellow}{revisar notacion}
+    \item \( s_{ik} \): Proporción de trabajadores en la ocupación \( k \) dentro de la región \( i \) (i.e., la participación ocupacional regional).
+    \item \( g_k \): Medida del choque tecnológico a nivel nacional que enfrenta la ocupación \( k \), como su exposición a herramientas de IAG (por ejemplo, porcentaje de tareas automatizables según un índice como el de Felten et al. o el de O*NET).
 \end{itemize}
+
+Este instrumento capta cómo las diferencias en la estructura ocupacional de cada región determinan su nivel de exposición al cambio tecnológico generado por la IAG. Por ejemplo, una región con alta concentración en ocupaciones administrativas o de programación, más expuestas a la automatización mediante IAG, recibiría un valor alto de \( z_i \), mientras que una región centrada en ocupaciones menos expuestas (como construcción o servicios personales) tendría un valor más bajo.
+
 
 \end{solucion}
 
@@ -1321,7 +1367,7 @@ Como  \( \mathbb{E}[\varepsilon_i] = 0 \), entonces
 \mathbb{E}[s_{ik} g_k \varepsilon_i] 
 \end{equation*}
 Lo mismo se tiene para $\mathbb{E}[ g_k \varepsilon_i] =0$
-    \item Entonces como $E[s_{ik}\varepsilon_i] = 0$, el share de la industria $k$ en la región $i$ (estructura industrial preexistente), no está correlacionado con  factores no observados que afectan el crecimiento del empleo regional $\varepsilon_i$ 
+     Entonces como $E[s_{ik}\varepsilon_i] = 0$, el share de la industria $k$ en la región $i$ (estructura industrial preexistente), no está correlacionado con  factores no observados que afectan el crecimiento del empleo regional $\varepsilon_i$ 
     \item De manera análoga, $E[g_{k}\varepsilon_i] = 0$, implica que el shift de la industria $k$ (el cambio en importaciones a nivel nacional que recibe la industria $k$) , no está correlacionado con  factores no observados que afectan el crecimiento del empleo regional $\varepsilon_i$ 
     \item Ahora,  note que $E[g_{k}s_{ik}]$ debería ser cero también, pues la estructura industrial preexistente en cada región ($s_{ik})$ está fija y no debería estar correlacionada con el cambio en las importaciones a nivel nacional en dicha industria ($g_{k}$). Esto no depende de las hipótesis del inciso a) sino de la construcción del ejercicio \textit{per se}.
     \item Por a), b) y c) entonces podemos afirmar que no hay relación sistemática entre \(s_{ik}\), \(\varepsilon_i\), y \(g_k\), luego:
@@ -1384,48 +1430,15 @@ Denote $y^{\perp}_{i}$ como el residual de proyectar linealmente $y_i$ sobre el 
     \end{align}
 
     \begin{solucion}
-    \textbf{NOTA:} En adelante supondremos que $\mathbb{E}[x_i^{\perp}] = \mathbb{E}[Z_i] = \mathbb{E}[\nu_i] = \mathbb{E}[\hat{x}_i^{\perp}] = 0$. Además, omitiremos el índice del iterador de la suma para simplificar la notación, así $\sum=\sum_{i=1}^N$ a menos que se indique lo contrario.
-    \begin{proof}
-        
+    \textbf{Claim:}el estimador de mínimos cuadrados en dos etapas (2SLS) puede expresarse como:
+    \begin{align}
+    \hat{\beta} = \frac{\sum_{i} z_i y^{\perp}_{i}}{\sum_{i} z_i x^{\perp}_{i}} \label{eq:beta_fwl_IV}
+    \end{align}
     
-    La primera etapa relaciona la variable endógena con nuestro instrumento: $x \sim z$. Usando FWL para residualizar los controles $w$ y obtener $x_i^\perp$ :
-\begin{equation}
-    x_i^{\perp} = \gamma z_i + \eta_i \label{eq:first_stage}
-\end{equation}
-
-La segunda etapa relaciona nuestra variable de respuesta con el valor predicho de la variable endógena de la primera etapa \ref{eq:first_stage}: $y_i \sim \hat{x}_i^\perp$, luego también usaremos $M_w y_i = y_i^{\perp}$:
-\begin{equation}
-    y_i^{\perp} = \beta \hat{x}_i^{\perp} + \nu_i \label{eq:second_stage}
-\end{equation}
-
-De \ref{eq:first_stage} y \ref{eq:second_stage} tenemos que sus respectivos valores predichos son:
-\begin{align}
-    \hat{x}_i^{\perp} &= \hat{\gamma} z_i \label{eq:fit_fs} \\
-    \hat{y}_i^{\perp} &= \hat{\beta} \hat{x}_i^{\perp} \label{eq:fit_ss}
-\end{align}
-
-Dado que estamos en el caso univariado (que lo posibilita la residualización usando FWL, pues ya se consideraron los controles), los estimadores de MCO para $\hat{\gamma}$ y $\hat{\alpha}$ son:
-\begin{align}
-    \hat{\gamma} &= \frac{\sum x_i^{\perp} z_i}{\sum z_i^2} \label{eq:gamma_hat} \\
-    \hat{\beta} &= \frac{\sum y_i^{\perp} \hat{x}_i^{\perp}}{\sum (\hat{x}_i^{\perp})^2} \label{eq:beta_hat},
-\end{align}
-
-donde el estimador de MCO en 2 etapas (2SLS) es $\hat{\beta}$.
-
-Reemplazando \ref{eq:fit_fs} en \ref{eq:beta_hat} para deshacernos de  $\hat{x}_i^{\perp}$:
-\begin{equation}
-    \hat{\beta} = \sum y_i^{\perp} \hat{\gamma} z_i \times \left( \sum (\hat{\gamma} z_i)^2 \right)^{-1} \label{eq:beta_hat2}
-\end{equation}
-
-Reemplazando \ref{eq:gamma_hat} en \ref{eq:beta_hat2}:
-\begin{align*}
-   \hat{\beta} &= \sum y_i^\perp \left[ \textcolor{gray}{\frac{\sum x_i^\perp z_i}{\sum z_i^2}} \right]z_i \times \left( \sum \left[ \textcolor{gray}{\frac{\sum x_i^\perp z_i}{\sum z_i^2}} \right]^2 z_i^2 \right)^{-1}
-\end{align*}
-
-\end{proof} 
-
-otra:   \begin{proof}
-Sabemos que el modelo estructural está dado por:
+    \textbf{NOTA:} En adelante supondremos que $\mathbb{E}[x_i^{\perp}] = \mathbb{E}[z_i] = \mathbb{E}[e_i] = \mathbb{E}[y_i^{\perp}] = 0$. Además, omitiremos el índice del iterador de la suma para simplificar la notación, así $\sum=\sum_{i=1}^N$ a menos que se indique lo contrario.
+    
+    \begin{proof}
+    Sabemos que el modelo estructural está dado por:
 
 \begin{equation*}\label{estructural}
     y_i = \alpha+ \beta x_i + w_i'\gamma + \varepsilon_i
@@ -1440,11 +1453,11 @@ donde \( M_w = I - P_w \) es el proyector ortogonal a los controles.\\
 Considere la regresión  por variables instrumentales: $y_i^\perp$ \text{ sobre } $x_i^\perp$ \text{ usando } $z_i$ \text{ como instrumento.}. Entonces:
 
 \begin{equation*}\label{primeraFWL}
-    x_i^\perp = \alpha' + \pi z_i + e_i \quad \text{(Primera etapa) }
+    x_i^\perp = \pi z_i + e_i \quad \text{(Primera etapa) }
 \end{equation*}
 
 \begin{equation*}\label{segundaFWL}
-    y_i^\perp = \alpha'' + \beta \hat{x}_i^\perp + \eta_i \quad \text{(Segunda etapa) }
+    y_i^\perp = \beta \hat{x}_i^\perp + \eta_i \quad \text{(Segunda etapa) }
 \end{equation*}
 
 Ahora, podemos escribir el estimador de regresión simple como:
@@ -1460,7 +1473,7 @@ Ahora, podemos escribir el estimador de regresión simple como:
     &=  \frac{\sum_i z_i y_i^\perp}{\sum_i z_i x_i^\perp} \quad \text{(reordenando) }
 \end{align*}
 
-Por el teorema de  Frisch-Waugh-Lovell (FWL), sabemos que el coeficiente instrumentalizado de la regresión estructural es el mismo de la regresión instrumentalizada de $y_i^\perp$ \text{ sobre } $x_i^\perp$. \textcolor{red}{revisar}
+Por el teorema de  Frisch-Waugh-Lovell (FWL), sabemos que el coeficiente instrumentalizado de la regresión estructural es el mismo de la regresión instrumentalizada de $y_i^\perp$ \text{ sobre } $x_i^\perp$. 
 
 \end{proof}
 \end{solucion}
@@ -1477,11 +1490,11 @@ Por el teorema de  Frisch-Waugh-Lovell (FWL), sabemos que el coeficiente instrum
         Recordemos que la ecuación estructural es 
 
         \begin{align}
-            y_i = \alpha + \beta x_i + \gamma'w_i+\varepsilon_i \label{eq:estructural}
+            y_i = \alpha + \beta x_i + \gamma'w_i+\varepsilon_i \label{eq:estructural_shock}
         \end{align}
 
-        Queremos encontrar el efecto del cambio en las importaciones provenientes de china en EEUU en la región $i$, denotado por $x_i$, sobre el crecimiento del empleo $y_i$. Así, nuestro estimando es el parámetro $\beta$ de \ref{eq:estructural}. 
-        Dado que consideramos que dichas importaciones presentan endogeneidad, estimar \ref{eq:estructural}, $\beta_{MCO}$ seguramente estará sesgado pues $x_i$ es endógena. Para ello usaremos como instrumento $z_i$ definido como 
+        Queremos encontrar el efecto del cambio en las importaciones provenientes de china en EEUU en la región $i$, denotado por $x_i$, sobre el crecimiento del empleo $y_i$. Así, nuestro estimando es el parámetro $\beta$ de \ref{eq:estructural_shock}. 
+        Dado que consideramos que dichas importaciones presentan endogeneidad, estimar \ref{eq:estructural_shock}, $\beta_{MCO}$ seguramente estará sesgado pues $x_i$ es endógena. Para ello usaremos como instrumento $z_i$ definido como 
 
         \begin{align}
             z_i = \sum_{k=1}^K s_{ik}g_k \label{eq:ss_instrument}. 
@@ -1503,7 +1516,9 @@ Por el teorema de  Frisch-Waugh-Lovell (FWL), sabemos que el coeficiente instrum
         \begin{equation}
         \bar{y}^\perp_k = \beta \bar{x}^\perp_k + \bar{\varepsilon}^\perp_k,  \label{eq:mod_nivelshock}
         \end{equation}
-        
+           donde  $\bar{y}_k^\perp = \frac{\sum_i s_{ik} y_i^\perp}{\sum_i s_{ik}} \:, \bar{x}_k^\perp = \frac{\sum_i s_{ik} x_i^\perp}{\sum_i s_{ik}}, \:\bar{\varepsilon}_k^\perp = \frac{\sum_i s_{ik} \varepsilon_i^\perp}{\sum_i s_{ik}}$\\
+        Sabemos que sin instrumentalizar, $\hat{\beta}_{\text{shock-level}} =
+     \frac{\sum_k \bar{x}^\perp_k \bar{y}_k^\perp}{\sum_k \bar{x}^\perp_k \bar{x}_k^\perp}$.\\ 
 
         Usando $g_k$ como instrumento de  $\bar{x}^\perp_i$, usando el resultado \ref{eq:beta_fwl_IV} del inciso 3  el estimador de \ref{eq:mod_nivelshock} es
 
@@ -1511,54 +1526,49 @@ Por el teorema de  Frisch-Waugh-Lovell (FWL), sabemos que el coeficiente instrum
             \hat{\beta}_{shock-level}=\frac{\sum_kg_k\bar{y}_k^\perp}{\sum_kg_k\bar{x}_k^\perp}. \label{eq:beta_shock}
         \end{align}
         
-  \textcolor{red}{Ana. Revisar, pero es con intercepto o no}
-       Considere la regresión IV :
-        $$ \bar{y}^\perp_k =\textcolor{red}{\alpha} + \beta \bar{x}^\perp_k + \bar{\varepsilon}^\perp_k, $$
-        donde  $\bar{y}_k^\perp = \frac{\sum_i s_{ik} y_i^\perp}{\sum_i s_{ik}} \:, \bar{x}_k^\perp = \frac{\sum_i s_{ik} x_i^\perp}{\sum_i s_{ik}}, \:\bar{\varepsilon}_k^\perp = \frac{\sum_i s_{ik} \varepsilon_i^\perp}{\sum_i s_{ik}}$\\
-Sabemos que sin instrumentalizar, $\hat{\beta}_{\text{shock-level}} =
-     \frac{\sum_k \bar{x}^\perp_k \bar{y}_k^\perp}{\sum_k \bar{x}^\perp_k \bar{x}_k^\perp}$.\\  Usando $g_k$ como instrumento de  $\bar{x}^\perp_i$ y usando la definición del estimador de minimos cuadrados en dos etapas (2SLS) de usando el resultado \ref{eq:beta_fwl_IV} tenemos que:
-\begin{align*}
-    \hat{\beta}_{\text{shock-level}} 
-    &= \frac{\sum_k g_k \bar{y}_k^\perp}{\sum_k g_k \bar{x}_k^\perp}
-\end{align*}
+
         \end{solucion}
         
         \item Demuestre que $\sum_k g_k\bar{y}^\perp_k = \sum_i z_i y_i^\perp$ manipulando la definición del promedio ponderado y cambiando el orden de las sumatorias. Asimismo, suponga que los shares suman a $1$, es decir $\sum_i s_{ik} = 1$.  \textit{(Pista: utilice la definición de $\bar{y}^\perp_k$ y de $z_i$)}.
         
         \begin{solucion}
 
-        Queremos demostrar que 
+        % Queremos demostrar que 
+        
+
+        % \begin{equation}
+        % \sum_k g_k\bar{y}^\perp_k = \sum_i z_i y_i^\perp \label{eq:equivalencia_ss}.
+        % \end{equation}
+        % En adelante nos referiremos al lado izquierdo de \ref{eq:equivalencia_ss} mediante la sigla LHS (\textit{left hand side}) y al lado derecho RHS (\textit{right hand side}). La prueba partirá del LHS y llegaremos al RHS.
+        
+        % \begin{proof}
+            
+        % Sabemos que 
+        % \begin{equation}
+        %     \bar{y}^\perp_k =\frac{\sum_i\textcolor{gray}{y_i^\perp s_{ik}} }{\sum_is_{ik}}= \sum_i\textcolor{gray}{y_i^\perp s_{ik}}
+        % \end{equation}
+
+        % Tomamos el LHS y reemplazamos la definición de $\bar{y}_k^\perp$
+        % \begin{equation}
+        % \sum_k g_k\bar{y}^\perp_k = \sum_kg_k\sum_iy_i^\perp s_{ik},
+        % \end{equation}
+        % si descomponemos la sumatoria sobre las regiones $i=1,2,\dots,N$ y dejamos todo en términos de la sumatoria sobre las industrias $k=1,\dots,K$
+        % \begin{align}
+        %     \sum_k g_k\bar{y}^\perp_k &=\sum_kg_k(y_1^\perp s_{1k}+\dots+y_N^\perp s_{Nk} ) \notag \\
+        %     &= \sum_kg_ky_1^\perp s_{1k}+\dots+g_k y_N^\perp s_{Nk} \qquad \text{reordenando términos}  \notag \\
+        %     &= \sum_kg_ks_{1k}y_1^\perp +\dots+g_k s_{Nk} y_N^\perp \notag  \qquad \text{reordenando la sumatoria} \\
+        %     &= \sum_i\sum_kg_ks_{ik}y_i^\perp \qquad \text{reemplazando \ref{eq:ss_instrument} } \notag \\
+        %     &= \sum_i z_iy_i^\perp.
+        % \end{align}
+        % Y hemos llegado al RHS.
+        
+        % \end{proof}
+Queremos demostrar que 
         
 
         \begin{equation}
         \sum_k g_k\bar{y}^\perp_k = \sum_i z_i y_i^\perp \label{eq:equivalencia_ss}.
         \end{equation}
-        En adelante nos referiremos al lado izquierdo de \ref{eq:equivalencia_ss} mediante la sigla LHS (\textit{left hand side}) y al lado derecho RHS (\textit{right hand side}). La prueba partirá del LHS y llegaremos al RHS.
-        
-        \begin{proof}
-            
-        Sabemos que 
-        \begin{equation}
-            \bar{y}^\perp_k =\frac{\sum_i\textcolor{gray}{y_i^\perp s_{ik}} }{\sum_is_{ik}}= \sum_i\textcolor{gray}{y_i^\perp s_{ik}}
-        \end{equation}
-
-        Tomamos el LHS y reemplazamos la definición de $\bar{y}_k^\perp$
-        \begin{equation}
-        \sum_k g_k\bar{y}^\perp_k = \sum_kg_k\sum_iy_i^\perp s_{ik},
-        \end{equation}
-        si descomponemos la sumatoria sobre las regiones $i=1,2,\dots,N$ y dejamos todo en términos de la sumatoria sobre las industrias $k=1,\dots,K$
-        \begin{align}
-            \sum_k g_k\bar{y}^\perp_k &=\sum_kg_k(y_1^\perp s_{1k}+\dots+y_N^\perp s_{Nk} ) \notag \\
-            &= \sum_kg_ky_1^\perp s_{1k}+\dots+g_k y_N^\perp s_{Nk} \qquad \text{reordenando términos}  \notag \\
-            &= \sum_kg_ks_{1k}y_1^\perp +\dots+g_k s_{Nk} y_N^\perp \notag  \qquad \text{reordenando la sumatoria} \\
-            &= \sum_i\sum_kg_ks_{ik}y_i^\perp \qquad \text{reemplazando \ref{eq:ss_instrument} } \notag \\
-            &= \sum_i z_iy_i^\perp.
-        \end{align}
-        Y hemos llegado al RHS.
-        
-        \end{proof}
-
-         \textcolor{red}{Ana}
          \begin{proof}
          Como $\sum_i s_{ik}=1$ entonces podemos reescribir $\bar{y}_k^\perp = \sum_i s_{ik} y_i^\perp$. Luego:
         
@@ -1580,37 +1590,35 @@ Sabemos que sin instrumentalizar, $\hat{\beta}_{\text{shock-level}} =
         \item Utilizando su resultado de la parte (c), demuestre que $\hat{\beta}_{\text{SSIV}} = \hat{\beta}_{\text{(shock-level)}}$.
         
         \begin{solucion}
-        \textcolor{red}{gustavo}
 
         Queremos demostrar que
 
-        \begin{align}
-            \hat{\beta}_{\text{SSIV}} &= \hat{\beta}_{\text{(shock-level)}} \qquad \text{de \ref{eq:ssiv} y de \ref{eq:beta_shock} } \notag \\
-            \frac{\sum_i z_iy_i^\perp}{\sum_i z_ix_i^\perp} &= \frac{\sum_kg_k\bar{y}_k^\perp}{\sum_kg_k\bar{x}_k^\perp} \label{eq:equivalencia_iv2} 
-        \end{align}
+        % \begin{align}
+        %     \hat{\beta}_{\text{SSIV}} &= \hat{\beta}_{\text{(shock-level)}} \qquad \text{de \ref{eq:ssiv} y de \ref{eq:beta_shock} } \notag \\
+        %     \frac{\sum_i z_iy_i^\perp}{\sum_i z_ix_i^\perp} &= \frac{\sum_kg_k\bar{y}_k^\perp}{\sum_kg_k\bar{x}_k^\perp} \label{eq:equivalencia_iv2} 
+        % \end{align}
 
-        Al igual que en las pruebas anteriores comenzaremos con el lado izquierdo (LHS) y llegaremos al lado derecho (RHS) para demostrar la igualdad.
+        % Al igual que en las pruebas anteriores comenzaremos con el lado izquierdo (LHS) y llegaremos al lado derecho (RHS) para demostrar la igualdad.
         
 
-        \begin{proof}
-        Sabemos que 
-        \begin{align}
-            \bar{y}^\perp_k &=\frac{\sum_i\textcolor{gray}{y_i^\perp s_{ik}} }{\sum_is_{ik}}= \sum_i\textcolor{gray}{y_i^\perp s_{ik}}  \label{eq:ybar} \\ 
-            \bar{x}^\perp_k &=\frac{\sum_i\textcolor{gray}{x_i^\perp s_{ik}} }{\sum_is_{ik}}=\sum_i\textcolor{gray}{x_i^\perp s_{ik}}. \label{eq:xbar}
-        \end{align}
-        Partiendo del LHS y \ref{eq:ssiv}, reemplazamos la definición del instrumento 
+        % \begin{proof}
+        % Sabemos que 
+        % \begin{align}
+        %     \bar{y}^\perp_k &=\frac{\sum_i\textcolor{gray}{y_i^\perp s_{ik}} }{\sum_is_{ik}}= \sum_i\textcolor{gray}{y_i^\perp s_{ik}}  \label{eq:ybar} \\ 
+        %     \bar{x}^\perp_k &=\frac{\sum_i\textcolor{gray}{x_i^\perp s_{ik}} }{\sum_is_{ik}}=\sum_i\textcolor{gray}{x_i^\perp s_{ik}}. \label{eq:xbar}
+        % \end{align}
+        % Partiendo del LHS y \ref{eq:ssiv}, reemplazamos la definición del instrumento 
 
-        \begin{align}
-            \hat{\beta}_{SSIV} &= \frac{\sum_{k=1}^K s_{1k}g_ky_1^\perp+\dots+s_{Nk}g_ky_N^\perp}{\sum_{k=1}^Ks_{1k}g_kx_1^\perp+\dots+s_{Nk}g_kx_N^\perp} \qquad \text{ reordenando términos  } \\
-            &= \frac{\sum_{k=1}^K g_k \textcolor{gray}{s_{1k}y_1^\perp}+\dots+g_k\textcolor{gray}{s_{Nk}y_N^\perp}}{\sum_{k=1}^Kg_k\textcolor{gray}{s_{1k}x_1}^\perp+\dots+g_k\textcolor{gray}{s_{Nk}x_N^\perp} } \\
-            &= \frac{\sum_{k=1}^K\sum_{i}g_k \textcolor{gray}{s_{ik}y_i^\perp}}{\sum_{k=1}^K\sum_i g_k\textcolor{gray}{s_{ik}x_i^\perp}} \qquad \text{reemplazando \ref{eq:ybar} y \ref{eq:xbar}    }\\
-            &= \frac{\sum_kg_k\bar{y}_k^\perp}{\sum_kg_k\bar{x}_k^\perp}\\
-            &= \hat{\beta}_{\text{shock-level}}
-        \end{align}
+        % \begin{align}
+        %     \hat{\beta}_{SSIV} &= \frac{\sum_{k=1}^K s_{1k}g_ky_1^\perp+\dots+s_{Nk}g_ky_N^\perp}{\sum_{k=1}^Ks_{1k}g_kx_1^\perp+\dots+s_{Nk}g_kx_N^\perp} \qquad \text{ reordenando términos  } \\
+        %     &= \frac{\sum_{k=1}^K g_k \textcolor{gray}{s_{1k}y_1^\perp}+\dots+g_k\textcolor{gray}{s_{Nk}y_N^\perp}}{\sum_{k=1}^Kg_k\textcolor{gray}{s_{1k}x_1}^\perp+\dots+g_k\textcolor{gray}{s_{Nk}x_N^\perp} } \\
+        %     &= \frac{\sum_{k=1}^K\sum_{i}g_k \textcolor{gray}{s_{ik}y_i^\perp}}{\sum_{k=1}^K\sum_i g_k\textcolor{gray}{s_{ik}x_i^\perp}} \qquad \text{reemplazando \ref{eq:ybar} y \ref{eq:xbar}    }\\
+        %     &= \frac{\sum_kg_k\bar{y}_k^\perp}{\sum_kg_k\bar{x}_k^\perp}\\
+        %     &= \hat{\beta}_{\text{shock-level}}
+        % \end{align}
 
-        Y llegamos al RHS como queríamos.
-        \end{proof}
-             \textcolor{red}{Ana M,}
+        % Y llegamos al RHS como queríamos.
+        % \end{proof}
         
 \begin{proof}
 Sabemos que:
@@ -1631,87 +1639,32 @@ Entonces:
 \end{proof}
         
         \end{solucion}
-        \item Interprete este resultado de equivalencia. ¿Qué nos dice sobre la validez del enfoque SSIV? ¿Cuáles son las implicaciones para los investigadores que utilizan instrumentos de shift-share y que argumentan exogeneidad por el lado de los \textit{shifts}?
-        
-        \begin{solucion}
-        \textcolor{red}{Gustavo}
-                
-        \begin{proof}
-Sabemos que:
-        \begin{equation*}
-    \hat{\beta}_{SSIV} = \frac{\sum_i \left( \sum_k s_{ik} g_k \right) y_i^\perp}{\sum_i \left( \sum_k s_{ik} g_k \right) x_i^\perp}
-\end{equation*}
+      
+    
 
-\begin{align*}
-    \hat{\beta}_{\text{shock-level}} 
-    &= \frac{\sum_k g_k \bar{y}_k^\perp}{\sum_k g_k \bar{x}_k^\perp}
-\end{align*}
-Entonces:
-\begin{align*}
-   \hat{\beta}_{SSIV} &= \frac{\sum_i \left( \sum_k s_{ik} g_k \right) y_i^\perp}{\sum_i \left( \sum_k s_{ik} g_k \right) x_i^\perp}\\
-   &= \frac{\sum_k g_k \bar{y}_k^\perp}{\sum_i \left( \sum_k s_{ik} g_k \right) x_i^\perp} \quad \text{(arriba mostramos que $\sum_i  \sum_k s_{ik} g_k y_i^\perp=\sum_k g_k \bar{y}_k^\perp$)}\\
-    &= \frac{\sum_k g_k \bar{y}_k^\perp}{\sum_k g_k \bar{x}_k^\perp} \quad \text{(también aplica para el denominador: $\sum_i  \sum_k s_{ik} g_k x_i^\perp=\sum_k g_k \bar{x}_k^\perp$)}
-\end{align*}
-    \end{proof}
-
-
-\begin{table}[H]
-\centering
-\caption{Comparación entre nivel de ubicación y nivel de shock en instrumentos shift-share}
-\resizebox{\linewidth}{!}{%
-  \input{docs/ss_comparison}
-}
-{\footnotesize \textit{Nota:} Omitimos la notación de las variables residualizadas usando FWL para simplificar la lectura y la presentación y concentrarnos en lo importante de estos instrumentos. La interpretación no cambia si se reemplazan la $y$ y la $x$ por sus versiones residualizadas.}
-\end{table}
-
-
-
-    {\textbf{Interpretación:}}
-
-     \textcolor{red}{Ana M,}
+ \item Interprete este resultado de equivalencia. ¿Qué nos dice sobre la validez del enfoque SSIV? ¿Cuáles son las implicaciones para los investigadores que utilizan instrumentos de shift-share y que argumentan exogeneidad por el lado de los \textit{shifts}?
+         \begin{solucion}
+    
         \textbf{Interpretación}\\
         Primero, estudiemos que representa cada efecto:
         \begin{itemize}
-            \item $\hat{\beta}_{SSIV}$ captura el efecto causal del componente exógeno del cambio en los shocks sectoriales (por ejemplo, un aumento en las importaciones desde China) sobre el crecimiento del empleo regional.
-                  \begin{itemize}
-                   \item Para aislar la parte no explicada por factores observables, se proyectan $y_i$ y $x_i$ linealmente sobre un conjunto de controles $w_i$ (como características demográficas, nivel de empleo inicial, tendencias regionales, etc.), obteniendo los residuos $y_i^\perp$ y $x_i^\perp$.
-                    \item Acá, bajo el supuesto de que $g_k$ es exógeno y los $s_{ik}$ son fijos (predeterminados), entonces se tiene que $z_i$ es un instrumento válido ( de ahí que no necesite ser ortogonalizado respecto a los controles)
-                     \item Entonces intuitivamnete,$\hat{\beta}_{SSIV}$  mide cómo los shocks comunes que afectan a las industrias influyen en el empleo regional, y lo hace ponderando por la exposición histórica de cada región a esas industrias. Se interpreta como el efecto promedio de estos shocks sobre el empleo, controlando por factores que también podrían afectar el crecimiento regional.\textcolor{red}{revisar}
-                  \end{itemize}
+            \item $\hat{\beta}_{SSIV}$ captura el efecto causal del componente exógeno del cambio en los shocks sectoriales (por ejemplo, un aumento en las importaciones desde China) sobre el crecimiento del empleo regional. Mide cómo los shocks $g_k$ que afectan a las industrias influyen en el empleo regional, y lo hace ponderando por la exposición histórica de cada región a esas industrias. Se interpreta como el efecto promedio de estos shocks sobre el empleo, controlando por factores que también podrían afectar el crecimiento regional. 
+                   
 
-                 \item  $\hat{\beta}_{\text{shock-level}}$
- \begin{itemize}
-                 \item , es que La intuición con $\hat{\beta}_{SSIV}$, es que  también analiza cómo los shocks afectan, en promedio, a las regiones más expuestas a cada sector. Acá, primero se agregan los efectos a nivel regional dentro de cada industria (ponderando por $s_{ik}$), y luego se estima el efecto del shock sobre ese promedio. Este enfoque facilita pruebas de validez del instrumento, ya que el análisis se traslada al nivel donde ocurren los shocks.
+                 \item $\hat{\beta}_{SSIV}$ también analiza cómo los shocks $g_k$ afectan, en promedio, a las regiones más expuestas a cada sector. Acá, primero se agregan los efectos a nivel regional dentro de cada industria (ponderando por $s_{ik}$), y luego se estima el efecto del shock sobre ese promedio. Este enfoque facilita pruebas de validez del instrumento, ya que el análisis se traslada al nivel donde ocurren los shocks.
                   \end{itemize}
-        \end{itemize}
-      
 
          \textbf{Validez del enfoque SSIV}\\
-         La equivalencia nos dice que el enfoque SSIV es válido. Si los shifts son exógenos, entonces una suma ponderada de los shifts también lo será, incluso si los shares (o sea los ponderadores) son éndogenos. Aunque los dos enfoques (SSIV y shock-level IV) operan a diferentes niveles (región vs. sector), ambos estimadores son algebraicamente equivalentes en este caso. Algo a considerar es que esto ocurre porque aunque los shifts sean endógenos, son fijos entonces la identificación puede descansar únicamente en la exogeneidad de los shocks agregados, siempre que los shares se usen solo como ponderadores y no estén interactuando con el término de error. \textcolor{red}{revisar la ultima linea}\\
+         La equivalencia nos dice que el enfoque SSIV es válido. Si los shifts son exógenos, entonces una suma ponderada de los shifts también lo será, incluso si los shares (o sea los ponderadores) son éndogenos. Aunque los dos enfoques (SSIV y shock-level IV) operan a diferentes niveles (región vs. sector), ambos estimadores son algebraicamente equivalentes en este caso.\\
 
         \textbf{Implicaciones en uso de instrumentos  shift-share y exogeneidad del lado de los shifts}\\
-        La equivalencia implica que el contenido informativo exógeno en $z_i$ proviene exclusivamente de los shocks $g_k$. Por lo tanto, la validez del instrumento no requiere independencia entre $s_{ik}$ y $\varepsilon_i$, sino solo entre $g_k$ y $\varepsilon_i$. La implicación para los investigadores que usan instrumentos de tipo shift-share y argumentan exogeneidad por el lado de los shares es que sus trabajos van a ser válidos para el público. \\
-        Los investigadores deben centrar su atención en justificar la exogeneidad de los shocks $g_k$. Esto incluye explicar su origen (por ejemplo, cambios en política comercial de otros países, innovaciones tecnológicas exógenas) y argumentar por qué no están correlacionados con shocks locales no observados. esto Tambien podria facilitar pruebas de validez:
-Como la equivalencia lleva la regresión al nivel de shock, se vuelve más fácil realizar pruebas estadísticas sobre los shocks, como verificar correlaciones con características pretratamiento de las industrias\\
-\textcolor{red}{revisar}
-This exchange shows that SSIV estimates
-can also be thought to arise from variation across shocks, rather than across observations. The
-equivalent IV regression uses the shocks gn directly as the instrument and shock-level aggregates
-of the original (residualized) outcome and treatment, ¯y⊥
-n and ¯x⊥
-n . Specifically, ¯y⊥
-n reflects the
-average residualized outcome of the observations most exposed to the nth shock, while ¯x⊥
-n is the
-same weighted average of residualized treatment. The regression is weighted by sn, representing
-each shock’s average exposure across the observations.13
+        La equivalencia implica que argumentar exogeneidad por el lado de los shifts es válido y creíble. Por lo tanto, la implicación para los investigadores que usan instrumentos de tipo shift-share y argumentan exogeneidad por el lado de los shares es que sus trabajos van a ser válidos para el público. \\, y esto es positivo en la medida que  no requiere independencia entre $s_{ik}$ y $\varepsilon_i$, sino solo entre $g_k$ y $\varepsilon_i$. 
+        Los investigadores deben centrar su atención en justificar la exogeneidad de los shocks $g_k$. Esto incluye explicar su origen (por ejemplo, cambios en política comercial de otros países, innovaciones tecnológicas exógenas) y argumentar por qué no están correlacionados con choques locales no observados. 
 
         
+\end{solucion}
 
-    
-    \end{solucion}
-
-    
+     
             \end{enumerate}
 
 \end{enumerate}
@@ -1724,37 +1677,21 @@ each shock’s average exposure across the observations.13
 
 \begin{enumerate}
     \item[5] Interprete y discuta la validez de (\ref{eq:ssiv_assumption}) en el contexto estudiado por Autor et al. (2013). ¿Es plausible? Argumente su respuesta
-
-
-    
     \begin{solucion}
-
-    El supuesto \ref{eq:ssiv_assumption} indica que los \textit{shifts} o cambios en las importaciones chinas $g_k$ para la industria $k$ a nivel nacional son \textit{as good as random}. Esto porque condicionando en el promedio de no observables ponderado por el \textit{share} de empleo de todas las regiones para esa industria $k$ ($\Sigma_is_{ik}\varepsilon_i$), cada choque tiene la misma media de $\mu$. 
- 
-    \colorbox{yellow}{no entiendo cómo interpretar esto como cuasi-aleatorio}
-
-
-     \textcolor{red}{Ana}
     \textbf{Interpretación} \\
         Varios puntos a tener en cuenta:
      \begin{itemize}
      \item  Los $\varepsilon_i$  recogen shocks locales no observables que afectan al empleo regional (por ejemplo, políticas locales, cultura laboral, declive industrial endógeno, etc.). Entonces $\bar{\varepsilon}_k$ es el aglomerado de esos choques locales a nivel nacional,  es un promedio ponderado en donde la región con un mayor share va a tener una mayor ponderación de su shocks locales no observable.
-    \item  Entonces, la interpretación de la condición es que el cambio en importaciones desde China para una industria $k$ no debe estar correlacionado con otros shocks locales promedio (no observados) que estén afectando a las regiones más especializadas en dicha industria.  Es decir,   aunque algunas regiones estén más expuestas a cierto sector (por ejemplo, más empleo en textiles), el cambio en importaciones en ese sector no debería estar relacionado con shocks locales no observados que afecten el crecimiento del empleo (como desastres naturales, políticas locales, etc.). 
+    \item  Entonces, la interpretación de la condición es que el cambio en importaciones nacionales desde China para una industria $k$ no debe estar correlacionado con choques locales promedio (no observados) que estén afectando a las regiones más especializadas en dicha industria.  Es decir,   aunque algunas regiones estén más expuestas a cierto sector (por ejemplo, más empleo en textiles), el cambio en importaciones en ese sector no debería estar relacionado con choques locales no observados que afecten el crecimiento del empleo (como desastres naturales, políticas locales, etc.). 
     
-    \item  En pocas palabras,la condición $ \mathbb{E}[g_k | \bar{\varepsilon}_k, s] = \mu \quad \forall k$ dice es que el shift $g_k$  no debe estar correlacionado con los problemas estructurales de las regiones expuestas. 
-     
-    \item  \textbf{Ejemplo}\\
-    Por ejemplo, suponga que las regiones con alta exposición a la industria textil (es decir, con valores altos de $s_{ik}$
-  para ese sector) comienzan a sufrir cortes de electricidad que afectan su productividad local. Note que la demanda se mantuvo, lo que bajó fue la oferta, entonces si esta disrupción local lleva a que aumenten las importaciones de productos textiles para suplir dicha demanda (es decir, si influye en el shock agregado $g_k$
-de la industria textil), entonces los shocks ya no son exógenos: están correlacionados con errores regionales $\varepsilon_i$
-  a través de los shares. Esto violaría la condición $ \mathbb{E}[g_k | \bar{\varepsilon}_k, s] = \mu \quad \forall k.$ Claramente, suponga que en otras regiones todo se mantuvo igual.\\
-  
-    Note que en este caso, como las fábricas tuvieron que bajar la producción por los cortes, eso repercute en que disminuya el número de trabajadores y no exactamente a que hayan subido el número de importaciones provenientes de China en la industria textil. Por eso, el efecto que se recuperaría en este caso estaría contaminado y no sería el que queremos. 
-
+    \item  En pocas palabras,la condición $ \mathbb{E}[g_k | \bar{\varepsilon}_k, s] = \mu \quad \forall k$ dice es que el shift nacional $g_k$  no debe estar correlacionado con los problemas estructurales de las regiones expuestas. 
 
      \end{itemize} 
      
-   
+   \textbf{Ejemplo}\\
+    Por ejemplo, suponga que las regiones con alta exposición a la industria textil (es decir, con valores altos de $s_{ik}$
+  para ese sector) comienzan a sufrir cortes de electricidad que afectan su productividad local. Note que la demanda se mantuvo, lo que bajó fue la oferta, entonces si esta disrupción local lleva a que aumenten las importaciones nacionales de productos textiles para suplir dicha demanda (es decir, si influye en el shock agregado $g_k$
+de la industria textil) y que esto no implique que la participación de la industria textil está aumentando en esa región, entonces se violaría la condición $ \mathbb{E}[g_k | \bar{\varepsilon}_k, s] = \mu \quad \forall k.$ Claramente, suponga que en otras regiones todo se mantuvo igual.
 
     \textbf{Validez}\\
     Para que la condición se cumpla, los shocks 
@@ -1762,92 +1699,90 @@ de la industria textil), entonces los shocks ya no son exógenos: están correla
     
     Se incumpliría si China hubiese conocido que industrias presentaban una mayor fragilidad y hubiese dirigido sus exportaciones a sectores donde EE.UU. tiene menor competitividad, entonces los shocks podrían responder endógenamente a las debilidades estructurales de ciertas regiones.\\
 
-Ahora, se podría argumentar que era imposible que China tuviese está información de antemano porque era información interna y protegida del gobierno de EE.UU. Entonces en ese caso, es bastante plausible que la condición se cumpla en el contexto de Autor et al(2013). Esto porque el “China shock” podría verse como algo generalizado en donde simplemente China empezó a ganar ventaja comparativa en todos los frentes (es decir en todas las industrias $k$) \textcolor{red}{revisar}
+Ahora, se podría argumentar que era imposible que China tuviese está información de antemano porque era información interna y protegida del gobierno de EE.UU. Entonces en ese caso, es bastante plausible que la condición se cumpla en el contexto de Autor et al(2013). Esto porque el “China shock” podría verse como algo generalizado en donde simplemente China empezó a ganar ventaja comparativa en todos los frentes (es decir en todas las industrias $k$) 
      
-    
-    
-    \end{solucion}
+\end{solucion}
     
     
     \item[6] Demuestre que bajo (\ref{eq:ssiv_assumption}) $z_i$ es un buen instrumento para $x_i$. Es decir, pruebe que $\mathbb{E}[z_i \varepsilon_i]=0$ y que $\mathbb{E}[z_ix_i]\neq 0$.\footnote{Para ello, puede asumir que $\sum_i^K s_{ik} = 1$, es decir, que el instrumento puede ser interpretado como un promedio ponderado por los \textit{shares}. }
     
     \begin{solucion}
     
-    \begin{theorem}
-    Ley de Esperanzas Iteradas (Teorema 3.24 de \href{https://doi.org/10.1007/978-0-387-21736-9}{Wasserman, 2004, p. 55}).
-    Sean \( X, Y \) dos variables aleatorias cuyas medias existen, para cualquier función \( r(x,y) \) tenemos:
-    \[
-    \mathbb{E}\left[ \mathbb{E}[r(X,Y) \mid X] \right] = \mathbb{E}[r(X,Y)].
-    \] \label{th:lei}
-    \end{theorem}
+    % \begin{theorem}
+    % Ley de Esperanzas Iteradas (Teorema 3.24 de \href{https://doi.org/10.1007/978-0-387-21736-9}{Wasserman, 2004, p. 55}).
+    % Sean \( X, Y \) dos variables aleatorias cuyas medias existen, para cualquier función \( r(x,y) \) tenemos:
+    % \[
+    % \mathbb{E}\left[ \mathbb{E}[r(X,Y) \mid X] \right] = \mathbb{E}[r(X,Y)].
+    % \] \label{th:lei}
+    % \end{theorem}
 
-    Dividiremos la prueba en dos partes 
-    \begin{enumerate}
-        \item Dado \ref{eq:ssiv_assumption} entonces el instrumento es exógeno: $$\mathbb{E}[g_k | \bar{\varepsilon}_k, s] = \mu \  \forall k \quad\Rightarrow \mathbb{E}[z_i\varepsilon_i=0] $$
-        \item Dado \ref{eq:ssiv_assumption} entonces el instrumento es relevante: $$\mathbb{E}[g_k | \bar{\varepsilon}_k, s] = \mu \  \forall k \quad\Rightarrow \mathbb{E}[z_ix_i\neq0] $$
-    \end{enumerate}
+    % Dividiremos la prueba en dos partes 
+    % \begin{enumerate}
+    %     \item Dado \ref{eq:ssiv_assumption} entonces el instrumento es exógeno: $$\mathbb{E}[g_k | \bar{\varepsilon}_k, s] = \mu \  \forall k \quad\Rightarrow \mathbb{E}[z_i\varepsilon_i=0] $$
+    %     \item Dado \ref{eq:ssiv_assumption} entonces el instrumento es relevante: $$\mathbb{E}[g_k | \bar{\varepsilon}_k, s] = \mu \  \forall k \quad\Rightarrow \mathbb{E}[z_ix_i\neq0] $$
+    % \end{enumerate}
 
-    \begin{proof}[Demostración Exogeneidad]
-    Comenzaremos considerando $\mathbb{E}[\Sigma_iz_i\varepsilon_i]$.
-    Reemplacemos la definición del instrumento:
-    \begin{align}
-        \mathbb{E}\left[\Sigma_i z_i\varepsilon_i  \right] &= 
-            \mathbb{E}\left[\sum_i \sum_kg_ks_{ik} \varepsilon_i \right] \notag \qquad \text{por inciso $4.c)$, análogo a \ref{eq:equivalencia_ss} si $\varepsilon_i=y_i^\perp$ } \\
-            &= \mathbb{E}\left[ \sum_kg_k\bar{\varepsilon}_k \right]. \notag
-    \end{align}
+    % \begin{proof}[Demostración Exogeneidad]
+    % Comenzaremos considerando $\mathbb{E}[\Sigma_iz_i\varepsilon_i]$.
+    % Reemplacemos la definición del instrumento:
+    % \begin{align}
+    %     \mathbb{E}\left[\Sigma_i z_i\varepsilon_i  \right] &= 
+    %         \mathbb{E}\left[\sum_i \sum_kg_ks_{ik} \varepsilon_i \right] \notag \qquad \text{por inciso $4.c)$, análogo a \ref{eq:equivalencia_ss} si $\varepsilon_i=y_i^\perp$ } \\
+    %         &= \mathbb{E}\left[ \sum_kg_k\bar{\varepsilon}_k \right]. \notag
+    % \end{align}
     
-    Es decir que por el Teorema \ref{th:lei} si consideramos \( \mathbb{E}[g_k \bar{\varepsilon}_k] \)
-    \[
-    \mathbb{E}\left[ \mathbb{E}[g_k \bar{\varepsilon}_k \mid \bar{\varepsilon}_k] \right] = \mathbb{E}[g_k \bar{\varepsilon}_k].
-    \]
+    % Es decir que por el Teorema \ref{th:lei} si consideramos \( \mathbb{E}[g_k \bar{\varepsilon}_k] \)
+    % \[
+    % \mathbb{E}\left[ \mathbb{E}[g_k \bar{\varepsilon}_k \mid \bar{\varepsilon}_k] \right] = \mathbb{E}[g_k \bar{\varepsilon}_k].
+    % \]
     
-    Dado que \( \bar{\varepsilon}_k \) es constante dado \( \bar{\varepsilon}_k \), para la $k$-ésima región tendríamos que
-    \begin{align}
-    \mathbb{E}[g_k \bar{\varepsilon}_k] &=
-       \mathbb{E}\left[ \bar{\varepsilon}_k \mathbb{E}[g_k \mid \bar{\varepsilon}_k] \right], \quad \text{de \ref{eq:ssiv_assumption}} \notag \\
-       &= \mathbb{E}[\bar{\varepsilon}_k \mu].
-    \end{align}
+    % Dado que \( \bar{\varepsilon}_k \) es constante dado \( \bar{\varepsilon}_k \), para la $k$-ésima región tendríamos que
+    % \begin{align}
+    % \mathbb{E}[g_k \bar{\varepsilon}_k] &=
+    %    \mathbb{E}\left[ \bar{\varepsilon}_k \mathbb{E}[g_k \mid \bar{\varepsilon}_k] \right], \quad \text{de \ref{eq:ssiv_assumption}} \notag \\
+    %    &= \mathbb{E}[\bar{\varepsilon}_k \mu].
+    % \end{align}
     
     
-    Ahora, como este resultado anterior fue para una \( k \)-ésima región, consideremos la suma sobre todas las regiones:
-    \begin{align}
-    \mathbb{E}\left[\sum_k g_k \bar{\varepsilon}_k\right] &= 
-        \mathbb{E}\left[\sum_k \mu \bar{\varepsilon}_k\right] \notag \\
-    &= \mu \sum_k \mathbb{E}\left[ \bar{\varepsilon}_k\right] \qquad \text{como $\bar{\varepsilon}_k=\sum_is_{ik}\varepsilon_i$} \notag \\
-    &= \mu \sum_k \mathbb{E}\left[ \sum_is_{ik}\varepsilon_i\right] \notag \\
-    &= \mu \sum_k \mathbb{E}\left[\sum_is_{ik}\times\sum_i\varepsilon_i\right]  \notag \qquad \text{como $\sum_is_{ik}=1$}  \\
-    &= \mu \sum_k \mathbb{E}\left[\sum_i\varepsilon_i\right]  \notag \qquad \text{por construcción $\mathbb{E}[\Sigma_i\varepsilon_i]=0$}  \notag \\
-    &= \mu\times 0 \notag \\ 
-    &= 0.
-    \end{align}
+    % Ahora, como este resultado anterior fue para una \( k \)-ésima región, consideremos la suma sobre todas las regiones:
+    % \begin{align}
+    % \mathbb{E}\left[\sum_k g_k \bar{\varepsilon}_k\right] &= 
+    %     \mathbb{E}\left[\sum_k \mu \bar{\varepsilon}_k\right] \notag \\
+    % &= \mu \sum_k \mathbb{E}\left[ \bar{\varepsilon}_k\right] \qquad \text{como $\bar{\varepsilon}_k=\sum_is_{ik}\varepsilon_i$} \notag \\
+    % &= \mu \sum_k \mathbb{E}\left[ \sum_is_{ik}\varepsilon_i\right] \notag \\
+    % &= \mu \sum_k \mathbb{E}\left[\sum_is_{ik}\times\sum_i\varepsilon_i\right]  \notag \qquad \text{como $\sum_is_{ik}=1$}  \\
+    % &= \mu \sum_k \mathbb{E}\left[\sum_i\varepsilon_i\right]  \notag \qquad \text{por construcción $\mathbb{E}[\Sigma_i\varepsilon_i]=0$}  \notag \\
+    % &= \mu\times 0 \notag \\ 
+    % &= 0.
+    % \end{align}
 
-    Por lo tanto, 
-    $$
-    \mathbb{E}[\Sigma_iz_i\varepsilon_i]=\mathbb{E}[\Sigma_kg_k\bar{\varepsilon}_k]=0,
-    $$
-    y decimos que el instrumento es exógeno.
-    \end{proof}
+    % Por lo tanto, 
+    % $$
+    % \mathbb{E}[\Sigma_iz_i\varepsilon_i]=\mathbb{E}[\Sigma_kg_k\bar{\varepsilon}_k]=0,
+    % $$
+    % y decimos que el instrumento es exógeno.
+    % \end{proof}
 
-    \begin{proof}[Demostración Relevancia]
-    Para esta prueba procederemos de forma análoga a la anterior de exogeneidad. Comenzamos considerando $\mathbb{E}[\Sigma_iz_ix_i]$, reemplazamos la definición del instrumento $z_i$. Luego obtenemos $\mathbb{E}[\Sigma_kg_k\bar{x}_k]$, y utilizando el Teorema \ref{th:lei} tenemos que para la $k$-ésima región:
-    \begin{align}
-        \mathbb{E}[g_k \bar{x}_k] &=
-       \mathbb{E}\left[ \bar{x}_k \mathbb{E}[g_k \mid \bar{x}_k] \right], \quad \text{de \ref{eq:ssiv_assumption}} \notag \\
-       &\neq \mathbb{E}[\bar{x}_k \mu]. \label{aux_relevancia}
-    \end{align}
-    \colorbox{yellow}{en adelante está mal!! cambiar approach}
-    Luego considerando la suma sobre todas las regiones
-    \begin{align}
-        \mathbb{E}\left[\sum_k g_k \bar{x}_k\right] &= 
-        \mathbb{E}\left[\sum_k \mu \bar{x}_k\right] \notag \\
-    &= \mu \sum_k \mathbb{E}\left[ \bar{x}_k\right] \qquad \text{como $\bar{x}_k=\sum_is_{ik}x_i$} \notag \\
-    &= \mu \sum_k \mathbb{E}\left[ \sum_is_{ik}x_i\right] \notag \\
-    &= \mu \sum_k \mathbb{E}\left[\sum_is_{ik}\times\sum_ix_i\right]  \notag \qquad \text{como $\sum_is_{ik}=1$}  \\
-    &= \mu \sum_k \mathbb{E}\left[\sum_ix_i\right]  \notag 
-    \end{align}
+    % \begin{proof}[Demostración Relevancia]
+    % Para esta prueba procederemos de forma análoga a la anterior de exogeneidad. Comenzamos considerando $\mathbb{E}[\Sigma_iz_ix_i]$, reemplazamos la definición del instrumento $z_i$. Luego obtenemos $\mathbb{E}[\Sigma_kg_k\bar{x}_k]$, y utilizando el Teorema \ref{th:lei} tenemos que para la $k$-ésima región:
+    % \begin{align}
+    %     \mathbb{E}[g_k \bar{x}_k] &=
+    %    \mathbb{E}\left[ \bar{x}_k \mathbb{E}[g_k \mid \bar{x}_k] \right], \quad \text{de \ref{eq:ssiv_assumption}} \notag \\
+    %    &\neq \mathbb{E}[\bar{x}_k \mu]. \label{aux_relevancia}
+    % \end{align}
+    % \colorbox{yellow}{en adelante está mal!! cambiar approach}
+    % Luego considerando la suma sobre todas las regiones
+    % \begin{align}
+    %     \mathbb{E}\left[\sum_k g_k \bar{x}_k\right] &= 
+    %     \mathbb{E}\left[\sum_k \mu \bar{x}_k\right] \notag \\
+    % &= \mu \sum_k \mathbb{E}\left[ \bar{x}_k\right] \qquad \text{como $\bar{x}_k=\sum_is_{ik}x_i$} \notag \\
+    % &= \mu \sum_k \mathbb{E}\left[ \sum_is_{ik}x_i\right] \notag \\
+    % &= \mu \sum_k \mathbb{E}\left[\sum_is_{ik}\times\sum_ix_i\right]  \notag \qquad \text{como $\sum_is_{ik}=1$}  \\
+    % &= \mu \sum_k \mathbb{E}\left[\sum_ix_i\right]  \notag 
+    % \end{align}
     
-    \end{proof}
-    \textcolor{red}{Ana}
+    % \end{proof}
+
     \textbf{Claim:}$\mathbb{E}[z_i \varepsilon_i]=0$. Es decir, el instrumento es exógeno.
     \begin{proof}
 \begin{align*}
@@ -1900,28 +1835,26 @@ Una estrategia diferente para lograr la identificación con un instrumento de ti
 \begin{enumerate}
     \item[7] Plantee la condición de momento que debe satisfacerse para que, desde la perspectiva de los \textit{shares}, un SSIV sea un  instrumento válido
     \begin{solucion}
-    \textcolor{red}{gustavo}
-    Consideremos el caso de Autor, et al (2013). Los \textit{shares} eran 
-    \begin{equation}
-        s_{ik}=\frac{\text{employment}_{ik}}{\text{employment}_{i}}.
-    \end{equation}
-    Suena convincente pensar que la condición que se espera que cumplan para una región $i$ los \textit{shares} iniciales del empleo, es que \textbf{condicional} a las características observables de $i$, que representaremos por $R_i$ (casi que efectos fijos que permita absorber heterogeneidad no observada)  
-    esta estructura sea exógena:
+    % \textcolor{red}{gustavo}
+    % Consideremos el caso de Autor, et al (2013). Los \textit{shares} eran 
+    % \begin{equation}
+    %     s_{ik}=\frac{\text{employment}_{ik}}{\text{employment}_{i}}.
+    % \end{equation}
+    % Suena convincente pensar que la condición que se espera que cumplan para una región $i$ los \textit{shares} iniciales del empleo, es que \textbf{condicional} a las características observables de $i$, que representaremos por $R_i$ (casi que efectos fijos que permita absorber heterogeneidad no observada)  
+    % esta estructura sea exógena:
 
-    \begin{align}
-        \mathbb{E}[s_{ik}|R_i]&=0 \ \notag  \forall k \\
-        \mathbb{E}\left[\frac{\text{employment}_{ik}}{\text{employment}_i}\mid R_i\right]&=0 \ \forall k
-    \end{align}
-      \textcolor{red}{Ana}
+    % \begin{align}
+    %     \mathbb{E}[s_{ik}|R_i]&=0 \ \notag  \forall k \\
+    %     \mathbb{E}\left[\frac{\text{employment}_{ik}}{\text{employment}_i}\mid R_i\right]&=0 \ \forall k
+    % \end{align}
 \begin{align*}
 \mathbb{E}[s_{ik} \mid w_i, \mathbf{s}] = 0 \quad \forall k
 \end{align*}
-Donde $\mathbf{g}$ es la matriz de todos los shares, de tamaño $I\times K$ donde las filas suman 1. Esta no es más que la condición de aleatoriedad condicional, una vez que se controla por toda la estructura de especialización sectorial  $\mathbf{s}$ de todas las regiones, el share de una industria específica en una región dada no está correlacionado con factores no observables locales que afectan el crecimiento del empleo.
+Donde $\mathbf{s}$ es la matriz de todos los shares, de tamaño $I\times K$ donde las filas suman 1. Esta no es más que la condición de aleatoriedad condicional, una vez que se controla por toda la estructura de especialización sectorial  $\mathbf{s}$ de todas las regiones, el share de una industria específica en una región dada no está correlacionado con factores no observables locales que afectan el crecimiento del empleo.
  \end{solucion}
 
     \item[8] Discuta la plausibilidad del cumplimiento del supuesto planteado en el inciso anterior. Puede ayudarse de un ejemplo concreto para desarrollar su argumento.
     \begin{solucion}
-    \textcolor{red}{Ana}
        
 Este supuesto es bastante complicado de que se cumpla. Parece poco creíble. Su incumplimiento se podría argumentar por medio de la teoría de la ventaja comparativa. Regiones que tengan ciertas características que los hagan propensos a especializarse en determinadas industrias, tendrían shares endogenos.\\
 
@@ -1931,11 +1864,9 @@ Un ejemplo sencillo es considerar regiones con acceso a puertos, las cuales va a
 
 \textbf{Conclusión:}
 Por lo tanto, la plausibilidad del supuesto depende críticamente de la historia de la especialización regional. En contextos donde los shares se formaron históricamente por razones poco relacionadas con los shocks actuales y con características del desempeño estructural de la región, el supuesto podría ser razonable. Pero en la práctica, esta exogeneidad suele ser difícil de justificar sin evidencia adicional o sin controles rigurosos.
-\textcolor{red}{revisar esto importanteeee}
 \end{solucion}
     
     \item[9] Realice una breve comparación entre las argumentaciones de exogeneidad de un SSIV (i.e., compara el \textit{shares}-approach vs el \textit{shift}-approach). Presente su comparación en la siguiente tabla.
-\textcolor{red}{Ana}
 \begin{table}[H]
 \centering
 \caption{Resumen de Instrumentos Shift-Share}
@@ -1961,7 +1892,6 @@ Por lo tanto, la plausibilidad del supuesto depende críticamente de la historia
 \begin{solucion}
 La tabla se encuentra abajo.
 \end{solucion}
-\textcolor{red}{Revisar esto con cuidado!!!!!}
 \begin{table}[H]
 \centering
 \caption{Resumen de Instrumentos Shift-Share}
@@ -1973,23 +1903,25 @@ La tabla se encuentra abajo.
 \textbf{Estrategia de Identificación} 
 & 
 \begin{itemize}
-    \item El marco es Variables Instrumentales
+    El enfoque de los shifts siendo exógenos los entiende como choques experimentales. Es decir, choques $g_k$ en una industria $k$ que no sean sistemáticamente diferentes en ciertas regiones con ciertas características iniciales. 
     \item Se deben incluir controles por la suma total de los shares (cuando no suman uno) y por agregados tipo shift-share construidos a partir de variables de control a nivel del shock.
     \item Nota: No se recomienda usar los shifts directamente como instrumento en una regresión a nivel de shift, por ejemplo, porque puede haber muy pocos o ser endógenos
 \end{itemize}
 
 &  
 \begin{itemize}
-    \item El marco es Variables Instrumentales
-    \item Verifique la robustez usando los shares como instrumentos directamente: por ejemplo, utilizando un share a la vez o agrupándolos mediante mínimos cuadrados en dos etapas (2SLS) o máxima verosimilitud con información limitada (LIML).
-    \item Nota: No se recomienda usar los shares directamente como instrumentos, por ejemplo, porque son “genéricos” (capturan la exposición de la unidad a muchos tipos de shocks).*
+    \item La identificación yace en entender los shifts como exposición exógena, asemejándose a un contexto cuasi-experimental puesto que estos shares se pueden considerar como estructuras iniciales previas al tratamiento que serán exógenas condicional en observables.
+    \item Verifique la robustez usando los shares como instrumentos directamente: por ejemplo, utilizando un share a la vez o agrupándolos mediante mínimos cuadrados en dos etapas (2SLS).
+    \item Nota: No se recomienda usar los shares directamente como instrumentos, por ejemplo, porque son “genéricos” (capturan la exposición de la unidad a muchos tipos de shocks).
 \end{itemize} 
 &
 \textbf{Supuestos de Identificación} 
 &  
-\( \mathbb{E}[g_k \mid \bar{\varepsilon}_k, \mathbf{s}] = \mu \quad \forall k \): el instrumento es exógeno si los shifts son as-good-as-randomly assigned y solo afectan el crecimiento del empleo a través del tratamiento (cambio en importaciones*)
+\( \mathbb{E}[g_k \mid \bar{\varepsilon}_k, \mathbf{s}] = \mu \quad \forall k \). Es decir, el instrumento es exógeno si los shifts son as-good-as-randomly assigned y solo afectan el crecimiento del empleo a través del tratamiento (cambio en importaciones*)
 &  
+
 \( \mathbb{E}[s_{ik} \mid w_i, \mathbf{s}] = 0 \quad \forall k \): el instrumento es exógeno si los shares son as-good-as-randomly assigned. A su vez, cada share satisface la condición de tendencias paralelas: los resultados de las unidades con alta y baja exposición habrían seguido la misma tendencia en ausencia del tratamiento*.  \\
+
 \textbf{Pruebas de Validez} 
 &  
 \begin{itemize}
@@ -2000,9 +1932,8 @@ La tabla se encuentra abajo.
     
     \item \textbf{Controles sectoriales:} Incluir covariables a nivel sectorial que puedan capturar diferencias estructurales entre sectores y reducir sesgos.
     
-    \item \textbf{Eliminación de sectores dominantes:} Repetir el análisis excluyendo sectores grandes o altamente expuestos y observar si los resultados se mantienen.
+    \item \textbf{Eliminación de sectores dominantes:} Repetir el análisis excluyendo sectores grandes o altamente expuestos y observar si los resultados se mantienen. 
     
-    \item \textbf{Test de balance:} Agrupar sectores por cuartiles de \( g_k \) y comparar medias de características pretratamiento entre grupos.
 \end{itemize}
 \end{itemize}
 
@@ -2014,10 +1945,10 @@ La tabla se encuentra abajo.
     \begin{itemize}
     \item \textbf{Balance regional:} Comparar características pretratamiento entre regiones con altos y bajos \( s_{ik} \).
     \item \textbf{Placebos:} Ver si \( z_i \) predice empleo antes del shock.
-    \item \textbf{Controles:} Incluir efectos fijos y tendencias regionales.
+    %\item \textbf{Controles:} Incluir efectos fijos y tendencias regionales.
     \item \textbf{Regresión de shares:} Ver si covariables predicen \( s_{ik} \).
     \item \textbf{Restricción de muestra:} Usar regiones con estructuras similares.
-    \item \textbf{Simulaciones:} Reasignar shares para evaluar sesgo potencial.
+    \item \textbf{Simulaciones/:} Reasignar shares para evaluar sesgo potencial.
 \end{itemize}
 \end{itemize}
  \\
@@ -2027,6 +1958,12 @@ La tabla se encuentra abajo.
 
 
 \end{enumerate}
+
+
+
+
+
+
 
 \subsection*{Parte práctica}
 \href{https://davidcard.berkeley.edu/papers/immigration-and-inequality.pdf}{Card (2009)} investiga la relación que existe entre la inmigración y la desigualdad salarial. Para lograr este objetivo, el ahora premio Nobel estudió cómo distintos flujos de inmigración que tuvieron lugar entre 1980 y 2000 incidieron en le estructura salarial de distintas ciudades en Estados Unidos. Estos flujos fueron heterogéneos en varias dimensiones, incluyendo el lugar de procedencia de los migrantes como su nivel de calificación. En el estudio, el autor hizo uso de la base de datos ``Card.dta'', la cual amablemente compartió con ustedes jóvenes promesas de la econometría. Así mismo, les envió dos archivos de ayuda: ``Codebook.txt'', el cual contiene el directorio de las variables incluidas en la base; y, ``country\_ids.xslx'', el cual contiene la codificación de los países de procedencia de los migrantes. En esencia, esta base de datos contiene los flujos de inmigrantes a 124 ciudades de Estados Unidos durante el periodo 1980-2000, junto con algunas características de estos lugares, tales como la población de inmigrantes que residía en 1980 (antes del gran éxodo), su tamaño y su desarrollo industrial. \\
@@ -2045,14 +1982,12 @@ donde $l$ es un indicador de la ciudad y $j$ indexa un subpoblación caracteriza
 
     \item[a)] Expliquen qué tipo de relación captura $\tau$ entre $w_{lj}$ y $r_{lj}$. ¿Dado el contexto, será el estimador de MCO $\hat{\tau}$ consistente para $\tau$? Justifique su respuesta.\\
     \begin{solucion}
-    \textcolor{red}{Parte practica : 
-    Ana M.}
     \textbf{Intepretación}
 Si fijamos $j$, $\tau$ se interpreta como que ante un aumento del $1\%$ en el ratio entre la cantidad de horas de trabajo de inmigrantes y nativos entonces la brecha salarial residual entre inmigrantes y nativos se reduce en $\tau\%$. \\
 
 Esta es una relación de elasticidad, en particular es la elasticidad inversa de sustitución entre los trabajadores inmigrantes y los trabajadores nativos en la demanda laboral. \\
 
-Lo que como investigadores esperaríamos es que si aumentan las horas trabajadas de los migrantes vs los nativo, entonces la brecha salarial se reduzca, pues los migrantes tienden a establizarse y alcanzar el nivel económico de los nativos.\\
+Lo que como investigadores esperaríamos es que si aumentan las horas trabajadas de los migrantes vs los nativos, entonces la brecha salarial se reduzca, pues los migrantes tienden a establizarse y alcanzar el nivel económico de los nativos.\\
 
  \textbf{Invalidez de MCO}
 En este contexto, el estimador de MCO $\hat{\tau}$ no necesarimente es consistente. La razón es que $r_{lj}$ en endógena y el estimador va a estar sesgado.\\ 
@@ -2100,7 +2035,7 @@ Por su parte, el ``shift'' está dado por $g_{cj}$ y es sencillamente el número
               \begin{itemize}
               \item  Se podría argumentar que personas de distintos países $c, c'$ no se ponen de acuerdo para migrar a la misma ciudad $l$
               \item Además que, una vez se controla por las características observables $\boldsymbol{X}_l$, no debería existir preferencia por migrar a una u otra ciudad Por ejemplo, entre varias ciudades de clima moderado, con acceso a mar, la migración es aleatoria.
-              \item Entonces $\mathbb{E}[z_{lc, 1980} \mid \boldsymbol{X}_l, \mathbf{s}] = 0 \quad \forall k$\textcolor{red}{revisar}
+              \item Entonces $\mathbb{E}[z_{lc, 1980} \mid \boldsymbol{X}_l, \mathbf{s}] = 0 \quad \forall k$
               \end{itemize}
               
           \end{itemize}
@@ -2166,7 +2101,7 @@ El supuesto de relevancia establece que, condicional en $\boldsymbol{X}_l$, debe
 \begin{table}[H]
 \centering
 \small
-\caption{Resultados de regresión para Highschool y College con y sin IV. Errores estándar robustos en paréntesis.}
+\caption{Resultados de regresión para Highschool (HS) y College (COLL) con IV y sin IV (OLS). Errores estándar robustos en paréntesis.}
 \label{tab:resultados}
 \begin{tabular}{p{5cm}cccc}
 \hline
@@ -2237,13 +2172,13 @@ Número de observaciones & 124 & 124 & 124 & 124 \\
     \begin{solucion}
     \textbf{Intepretación:}
 
-Las estimaciones IV sugieren que una mayor brecha salarial inicial entre inmigrantes y nativos en 1980 ocasiona una reducción significativa en el salario relativo de los inmigrantes en los 2000. En concreto, un aumento de 1\% en la brecha para trabajadores con secundaria completa (HS) está asociado con una caída de aproximadamente 0.03\% en su salario relativo frente a nativos. Para trabajadores con educación universitaria, la caída es de aproximadamente 0.37\%. Los resultados por MCO son aún más negativos, con coeficientes de $-0.0403$ para HS y $-0.0582$ para COLL, lo que sugiere una posible selección endógena en la ubicación de los inmigrantes.\\ 
+Las estimaciones IV sugieren que una mayor brecha salarial inicial entre inmigrantes y nativos en 1980 ocasiona una reducción significativa en el salario relativo de los inmigrantes en los 2000. En concreto, un aumento de 1\% en la brecha para trabajadores con secundaria completa (Higschool) está asociado con una caída de aproximadamente 0.03\% en su salario relativo frente a nativos. Para trabajadores con educación universitaria, la caída es de aproximadamente 0.37\%. Los resultados por MCO son aún más negativos, con coeficientes de $-0.0403$ para HS y $-0.0582$ para COLL, lo que sugiere una posible selección endógena en la ubicación de los inmigrantes.\\ 
 
 Las regresiones incluyen controles por logaritmo de población, proporción de estudiantes universitarios e industria manufacturera en 1980 y 1990. Los estadísticos F de la primera etapa son sólidos (por ejemplo, 40.62 en el caso COLL-IV), lo que respalda la relevancia del instrumento shift-share. El R$^2$ oscila entre 0.20 y 0.38, lo que indica una capacidad explicativa razonable del modelo.
 \end{solucion}
     \item[iii)] Argumenten si, desde su punto de vista, los supuestos de identificación son válidos en el contexto del problema.
     \begin{solucion}
-    En la aproximación de exogeneidad por el lado de los shares, el supuesto de identificación es que los shares deberían ser as-good-as-randomly. Esto es, que para ciudades con características similares y donde hay migración proveniente de otros países, los migrante de un país dado no va a elegir sistemáticamente una ciudad sobre otra, sino que la elección va a ser aleatoria. Desde mi punto de vista, esto no necesariamente se cumple, porque siempre va a existir una predilección por ciertas ciudades, simplemente por la fama que tienen. O porque sea más fácil llegar a ella desde el país de origen. Por ejemplo, la población mexicana podría ubicarse en ciudades grandes cerca de la frontera, donde además es probable que ya tengan un familiar. Esto sería en partes como Texas o California. En el mismo sentido, por la cercanía territoria con Cuba, la población cubana tendería a asentarse en la Florida. Y así, se podrían seguir encontrando ejemplos. Entonces no considero que los shares vayan a ser del todo exógenos.\textcolor{red}{revisar}
+    En la aproximación de exogeneidad por el lado de los shares, el supuesto de identificación es que los shares deberían ser as-good-as-random. Esto es, que para ciudades con características similares y donde hay migración proveniente de otros países, los migrante de un país dado no van a elegir sistemáticamente una ciudad sobre otra, sino que la elección va a ser aleatoria. Desde mi punto de vista, esto no necesariamente se cumple, porque siempre va a existir una predilección por ciertas ciudades, simplemente por la fama que tienen, porque sea más fácil llegar a ella desde el país de origen, o que tenga previamente una población grande de migrantes del país. Por ejemplo, la población mexicana podría ubicarse en ciudades grandes cerca de la frontera, donde además es probable que ya tengan un familiar. Esto sería en partes como Texas o California. En el mismo sentido, por la cercanía territorial con Cuba, la población cubana tendería a asentarse en la Florida. Y así, se podrían seguir encontrando ejemplos. Entonces no considero problable que los shares vayan a ser 100\% exógenos. 
 \end{solucion}
 
     
@@ -2309,7 +2244,7 @@ $N$               & &  & & & & & & \\
 \begin{table}[H]
 \centering
 \small
-\caption{Regresión del instrumento shift-share por país de origen y Bartik}
+\caption{Regresión del instrumento shift-share por país de origen y Bartik.Errores estándar robustos en paréntesis.}
 \label{tab:shric_regs_all}
 \begin{tabular}{lcccccc}
 \toprule
@@ -2356,15 +2291,7 @@ N & \multicolumn{3}{c}{321} & \multicolumn{3}{c}{321} \\
     
     \item[ii)] Interpreten los resultados a la luz de los supuestos de identificación. ¿La información encontrada refuta o apoya el cumplimiento de estos supuestos?  
     \begin{solucion}
-    Para Cuba y Europa del este con otros, hay un poco de endegeneidad ....(the year of analysis). While the patterns for Mexico are comforting, the 1980 share
-of immigrants from the Philippines correlates with the native-
-immigrant wage gap
-in all three periods. Other countries also feature statistically significant violations of
-pre-trend balance, raising concerns about share exogeneity. In part, the correlation
-between pre-period outcomes and certain origin shares could arise because preperiod
-outcomes are affected by pre-period immigration rates. Including lagged
-immigration rates in the model could help pre-trend tests pass while also making
-causal estimates more credible.
+Para casi todos los países, se valida el supuesto; sin embargo para Cuba y Europa del este con otros podría haber un poco de endogeneidad, esto genera preocupaciones ya que podria invalidar el uso del instrumento. No obstante, no es algo generalizado. En parte, la correlación entre los resultados del período previo y ciertas participaciones por país de origen podría surgir porque los resultados previos están afectados por las tasas de inmigración de ese mismo período. Incluir tasas de inmigración rezagadas en el modelo podría ayudar a que las pruebas de tendencias previas se superen, al mismo tiempo que haría que las estimaciones causales sean más creíbles.
 \end{solucion}
     \end{itemize}
     
